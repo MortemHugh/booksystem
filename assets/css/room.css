@@ -1,0 +1,223 @@
+.rm{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.gallery{
+    width: 100%;
+}
+
+.gallery-container{
+    align-items: center;
+    display: flex;
+    height: 550px;
+    margin: 0 auto;
+    max-width: 1000px;
+    position: relative;
+}
+
+.card_room{
+    height: 400px;
+    opacity: 0;
+    position: absolute;
+    transition: all 0.3s ease-in-out;
+    width: 500px;
+    z-index: 0;
+    border-radius: 15px;
+    background-size: contain;
+    padding: 5px;
+}
+.gallery-item{
+    border-radius: 15px 15px 0 0  ;
+}
+.gallery-item-1{
+    box-shadow: -2px 5px 33px 6px rgba(0, 0, 0, 0.35);
+    height: 525px;
+    opacity: 1;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 530px;
+    z-index: 2;
+}
+.gallery-item-2{
+    left: 30%;
+    transform: translateX(-50%);
+}
+
+.gallery-item-5{
+    left: 70%;
+    transform: translateX(-50%);
+}
+.gallery-item-2, .gallery-item-5{
+    height: 450px;
+    opacity: 0.8;
+    width: 480px;
+    z-index: 1;
+}
+.gallery-item-3{
+    left: 20%;
+    opacity: .4;
+    transform: translateX(-50%);
+}
+
+.gallery-item-4{
+    left: 55%;
+    opacity: .4;
+    transform: translateX(-50);
+}
+
+
+.se{
+    width: 300px;
+}
+
+.sr{
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.gallery-controls{
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+    height: 50px;
+}
+.gallery-controls button{
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    font-size: 30px;
+    margin: 0 50px;
+    padding: 0 12px;
+    text-transform: capitalize;
+}
+
+.gallery-controls-button:focus{
+    outline: none;
+}
+
+
+.gallery-controls-previous{
+    position: relative;
+}
+.gallery-controls-previous::before{
+    border: solid #000;
+    border-width: 0 5px 5px 0;
+    content: '';
+    display: inline-block;
+    height: 5px;
+    left: -30px;
+    padding: 10px;
+    position: absolute;
+    top: 25%;
+    transform: rotate(135deg) translateY(-50%);
+    transition: left 0.15s ease-in-out;
+    width: 5px;
+}
+
+.gallery-controls-previous:hover::before{
+    left: -40px;
+}
+
+
+
+.gallery-controls-next{
+    position: relative;
+}
+.gallery-controls-next::before{
+    border: solid #000;
+    border-width: 0 5px 5px 0;
+    content: '';
+    display: inline-block;
+    height: 5px;
+    right: -30px;
+    padding: 10px;
+    position: absolute;
+    top: 45%;
+    transform: rotate(-45deg) translateY(-50%);
+    transition: right 0.15s ease-in-out;
+    width: 5px;
+    
+    
+}
+.gallery-controls-next:hover::before{
+    right: -40px;
+}
+
+
+
+.gallery-nav{
+    bottom: -15px;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+}
+.gallery-nav li{
+    background: #ccc;
+    border-radius: 50%;
+    height: 10px;
+    margin:  0 16px;
+    width: 10px;
+}
+.gallery-nav li.gallery-item-selected{
+    background: #555;
+}
+
+.card-text{
+    padding: 10px;
+    overflow: hidden;
+    user-select: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+@media only screen and (max-width: 900px) {
+    .gallery-container{
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        grid-gap: 1em;
+    }    
+    .card_room {
+        width: 100%;
+    }
+    .gallery-item-1,
+    .gallery-item-2,
+    .gallery-item-3,
+    .gallery-item-4,
+    .gallery-item-5 {
+        left: 0;
+        transform: none;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .gallery-controls button, .gallery-controls-previous::before, .gallery-controls-next::before {
+      font-size: 17px;
+      padding: 0px;
+      border-width: 0 0px 0px 0;
+      /* Add other responsive styles as needed */
+    }
+  }
+  
+  @media screen and (min-width: 601px) and (max-width: 1200px) {
+    .gallery-controls button , .gallery-controls-previous::before, .gallery-controls-next::before  {
+      font-size: 18px;
+      padding: 0px;
+      border-width: 0 0px 0px 0;
+      /* Add other responsive styles as needed */
+    }
+  }
+  
+  @media screen and (min-width: 1201px) {
+    .gallery-controls button , .gallery-controls-previous::before, .gallery-controls-next::before  {
+      font-size: 20px;
+      padding: 0px;
+      border-width: 0px;
+      /* Add other responsive styles as needed */
+    }
+  }

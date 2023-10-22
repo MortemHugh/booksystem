@@ -13,7 +13,7 @@ body{
 }
 
 
-
+/*Header Navigation*/
 header{
     position: fixed;
     top: 0;
@@ -68,7 +68,7 @@ header .navigation li a:hover{
     color: #2c89d3 !important;
     font-weight: 400 !important;
 }
-
+/*Header Navigation End */
 
 .availability-form{
     margin-top: -210px;
@@ -76,15 +76,14 @@ header .navigation li a:hover{
     position: relative;
 }
 
-#rooms {
-    /* Set the background image URL */
-    background-image: url('/assets/img/EventHall.jpg');
+.rooms {
+    background-image: url(/img/EventHall.jpg);
     background-size: cover; 
     background-position: center center; 
     text-align: center;
     position: relative;
 }
-#rooms::before {
+.rooms::before {
     content: "";
     position: absolute;
     top: 0;
@@ -304,14 +303,14 @@ header .navigation li a:hover{
         position: relative;
         width: 40px;
         height: 40px;
-        background: url(/assets/img/menu.png);
+        background: url(/img/menu.png);
         background-size: 30px;
         background-repeat: no-repeat;
         background-position: center;
         cursor: pointer;
     }
     .menuTog.active{
-        background: url(/assets/img/close.png);
+        background: url(/img/close.png);
         background-size: 25px;
         background-repeat: no-repeat;
         background-position: center;

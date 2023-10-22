@@ -12,6 +12,64 @@ body{
     padding: 100px 0;
 }
 
+
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 40px 100px;
+    z-index: 10000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.5s;
+}
+header.sticky{
+    background: #fff;
+    padding: 15px 100px;
+    padding-top: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+header .logo{
+    color: #fff;
+    font-weight: 700;
+    font-size: 2em;
+    text-decoration: none;
+}
+header.sticky .logo{
+    color: #111;
+}
+header.sticky .navigation li a{
+    color: #111;
+}
+header .logo span{
+    color: #2c89d3;
+}
+header .navigation{
+    position: relative;
+    display: flex;
+}
+header .navigation li{
+    list-style: none;
+    margin-left: 40px;
+}
+header .navigation li a{
+    text-decoration: none;
+    color: #fff;
+    font-weight: 400;
+}
+header .navigation li a:hover{
+    color: #2c89d3;
+}
+
+.header_active{
+    color: #2c89d3 !important;
+    font-weight: 400 !important;
+}
+
+
 .availability-form{
     margin-top: -210px;
     z-index: 2;
@@ -77,61 +135,6 @@ body{
     font-size: 30;
 }
 
-
-header{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 40px 100px;
-    z-index: 10000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: 0.5s;
-}
-header.sticky{
-    background: #fff;
-    padding: 15px 100px;
-    padding-top: 25px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-}
-header .logo{
-    color: #fff;
-    font-weight: 700;
-    font-size: 2em;
-    text-decoration: none;
-}
-header.sticky .logo{
-    color: #111;
-}
-header.sticky .navigation li a{
-    color: #111;
-}
-header .logo span{
-    color: #2c89d3;
-}
-header .navigation{
-    position: relative;
-    display: flex;
-}
-header .navigation li{
-    list-style: none;
-    margin-left: 40px;
-}
-header .navigation li a{
-    text-decoration: none;
-    color: #fff;
-    font-weight: 400;
-}
-header .navigation li a:hover{
-    color: #2c89d3;
-}
-
-.header_active{
-    color: #2c89d3 !important;
-    font-weight: 400 !important;
-}
 
 .btn
 {

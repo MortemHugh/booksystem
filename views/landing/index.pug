@@ -1,0 +1,336 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet')
+    link(rel='stylesheet' href='/assets/css/index.css')
+    link(rel='stylesheet' href='/assets/css/room.css')
+    title Index
+  // Navigation Bar
+  body
+    a.logo(href='index.html')
+      | Aruga
+      span .
+    .menuTog(onclick='toggleMenu();')
+      ul.navigation
+        li
+          a.header_active(href='#home_page' onclick='toggleMenu();') Home
+        li
+          a(href='about.pug' onclick='toggleMenu();') About
+        li
+          a(href='rooms.pug' onclick='toggleMenu();') Rooms
+        li
+          a(href='service.pug' onclick='toggleMenu();') Services
+        li
+          a(href='booking.pug' onclick='toggleMenu();') Booking
+    // Home
+    // Carousel Hero
+    section#home_page.home_page
+      #carouselExampleCaptions.carousel.slide(data-bs-ride='carousel')
+        .carousel-indicators
+          button.active(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='0' aria-current='true' aria-label='Slide 1')
+          button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='1' aria-label='Slide 2')
+          button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='2' aria-label='Slide 3')
+        .carousel-inner
+          .carousel-item.active
+            img.d-block.w-100(src='/assets/img/lounge.jpeg' alt='...')
+            .carousel-caption
+              h5 A Haven of Tranquility
+              p
+                | Step into ARUGA, and you&apos;ll immediately sense the tranquility that envelops you. Our meticulously designed spaces provide a sanctuary from the hustle and bustle of the city, where you can unwind and recharge in utmost serenity..
+          .carousel-item
+            img.d-block.w-100(src='/assets/img/hotel-bed.jpeg' alt='...')
+            .carousel-caption
+              h5 Stylish Accommodations
+              p
+                | Our thoughtfully curated rooms and suites are a testament to contemporary design and comfort. Each one is a harmonious blend of aesthetics and functionality, ensuring that your stay with us is both visually pleasing and supremely comfortable.
+          .carousel-item
+            img.d-block.w-100(src='/assets/img/pool.jpeg' alt='...')
+            .carousel-caption
+              h5 Relax and Rejuvenate
+              p
+                | Our wellness center invites you to rejuvenate your body and soul. Take a dip in our exquisite pool, work up a sweat in our fitness center, or indulge in a soothing spa treatment.
+        button.carousel-control-prev(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide='prev')
+          span.carousel-control-prev-icon(aria-hidden='true')
+          span.visually-hidden Previous
+        button.carousel-control-next(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide='next')
+          span.carousel-control-next-icon(aria-hidden='true')
+          span.visually-hidden Next
+    // Check Availability
+    .container.availability-form
+      .row.d-flex.justify-content-center
+        .col-lg-12.bg-white.shadow.p-4.rounded
+          form
+            .row.align-item-end
+              .col-lg-2.mb-3
+                label.form-label(for='' style='font-weight: 400;') Check-in
+                input.form-control.shadow-none(type='date')
+              .col-lg-2.mb-3
+                label.form-label(for='' style='font-weight: 400;') Check-out
+                input.form-control.shadow-none(type='date')
+              .col-lg-3.mb-3
+                label.form-label(for='' style='font-weight: 400;') Adult
+                select.form-select.shadow-none
+                  option(selected='') Count
+                  option(value='1') One
+                  option(value='2') Two
+                  option(value='3') Three
+              .col-lg-3.mb-3
+                label.form-label(for='' style='font-weight: 400;') Children
+                select.form-select.shadow-none
+                  option(selected='') Count
+                  option(value='1') One
+                  option(value='2') Two
+                  option(value='3') Three
+              .col-lg-2.mb-lg-3.mt-2.text-center
+                button.btn.btn-primary.text-white.shadow-none(type='submit') Search
+    // About
+    section#about.about.section-padding
+      .container
+        .row
+          .col-lg-5.col-md-12.col-12
+            .about-img
+              img.img-fluid(src='assets/img/hotel.png' alt='')
+          .col-lg-6.col-md-12.col-12.ps-lg-5.mt-md-5
+            .about-text
+              .content
+                h2.titletext
+                  | Welcome to 
+                  span A
+                  | ruga
+                p.typings Where Comfort Meets Convenience in Style!
+                br
+              p
+                | ARUGA, a name synonymous with comfort and sophistication, is your perfect choice for a medium-sized hotel experience that redefines hospitality. Nestled in the heart of Manila,
+                | ARUGA offers a delightful fusion of modern luxury and timeless elegance, setting the stage for an unforgettable stay.
+              p
+                | Where Comfort, Convenience, and Class Converge in a single place. In a world where travel is an art form, ARUGA is your masterpiece.
+                | We invite you to immerse yourself in the ARUGA experience, where comfort, convenience, and class converge to create a symphony of memorable moments.
+              p
+                | Book your next stay with ARUGA, and let us continue to redefine your idea of exceptional hospitality. Your journey of discovery and relaxation begins here.
+              a.btn.btn-primary(href='rooms.html') Learn More
+              
+    // Room Carousel
+    <br>
+    section#rooms.rm.room.section-padding
+      .content
+      // Header Title for page
+      .row.mx-5
+        .col-md-12
+            .room-title.section-header.text-center.pb-1
+              h2.titletext
+                | Our Available 
+                span R
+                | ooms
+              p
+                | Diverse range of meticulously designed rooms and suites, each tailored to meet your specific needs and preferences.
+
+        each h in allRoomTypeArray
+          
+            //- card
+            .col-12.col-md-12.col-lg-3.mt-4
+              .card.bg-white.line-height.shadow.h-100
+                .card-body.text-dark
+                  .img-area.mb-4
+                    if h.roomimage
+                      img.img-fluid.roomtype-img(src=`${h.roomimage}` alt='Room Type Image' style='object-position: center; width: 600px; height: 250px;')
+                    else 
+                      img.img-fluid.roomtype-img(src='images/sa/placeholder_hotel.jpg' alt='Room Type Image' style='object-position: center; width: 200px; height: 100px;')
+                  h4.roomtype-name.mb-4
+                    span #{h.roomtype}
+                  if h.description
+                    h6.roomtype-description.mb-3
+                        | Description: 
+                        span #{h.description}
+                  if h.price      
+                    h6.roomtype-price.mb-3
+                        | Price: 
+                        span #{h.price}
+                  if h.capacity      
+                    h6.roomtype-capacity.mb-3
+                        | Capacity: 
+                        span #{h.capacity}
+                .card-footer.pb-3.pt-3
+                  .d-flex.justify-content-end
+                    a.btn.btn-primary.sa-book-now.me-2(data-typeid=h.typeid href=`/reservation?typeid=${h.typeid}`, role='button') Book Now
+
+      //-.container.container_room
+        .row
+          .col-md-12
+            .room-title.section-header.text-center.pb-1
+              h2.titletext
+                | Our Available 
+                span R
+                | ooms
+              p
+                | Diverse range of meticulously designed rooms and suites, each tailored to meet your specific needs and preferences.
+        .gallery
+          .gallery-container
+            #item-1.card.card_room.gallery-item-1(data-index='1')
+              img.gallery-item(src='/assets/img/Standarad.jpg')
+              .card-text
+                h5.room-titletext
+                  span S
+                  | tandard 
+                  span D
+                  | eluxe
+                p Affordable comfort awaits in our Standard Deluxe Room.
+                a(href='rooms.html#standard')
+                  button.btn.btn-primary.text-white Learn More
+                a(href='/reservation')
+                  button.btn.btn-primary.text-white Book Now
+            #item-2.card.card_room.gallery-item-2(data-index='2')
+              img.gallery-item(src='/assets/img/Twin.jpg')
+              .card-text
+                h5.room-titletext
+                  span T
+                  | win 
+                  span D
+                  | eluxe
+                p Space and relaxation for two in our Twin Deluxe Room.
+                a(href='rooms.html#twin')
+                  button.btn.btn-primary.text-white Learn More
+                a(href='/reservation')
+                  button.btn.btn-primary.text-white Book Now
+            #item-3.card.card_room.gallery-item-3(data-index='3')
+              img.gallery-item(src='/assets/img/studio.jpg')
+              .card-text
+                h5.room-titletext
+                  span S
+                  | tudio 
+                  span S
+                  | uite
+                p Style and functionality combine in our spacious Studio Suite.
+                a(href='rooms.html#studio')
+                  button.btn.btn-primary.text-white Learn More
+                a(href='/reservation')
+                  button.btn.btn-primary.text-white Book Now
+            #item-4.card.card_room.gallery-item-4(data-index='4')
+              img.gallery-item(src='/assets/img/Executive.jpg')
+              .card-text
+                h5.room-titletext
+                  span E
+                  | xecutive 
+                  span S
+                  | uite
+                p Luxury and convenience meet in our Executive Suite.
+                a(href='rooms.html#executive')
+                  button.btn.btn-primary.text-white Learn More
+                a(href='/reservation')
+                  button.btn.btn-primary.text-white Book Now
+            #item-5.card.card_room.gallery-item-5(data-index='5')
+              img.gallery-item(src='/assets/img/Family.jpg')
+              .card-text
+                h5.room-titletext
+                  span F
+                  | amily 
+                  span S
+                  | uite
+                p Spacious comfort for the whole family in our Family Suite.
+                a(href='rooms.html#family')
+                  button.btn.btn-primary.text-white Learn More
+                a(href='/reservation')
+                  button.btn.btn-primary.text-white Book Now
+          .container
+            .row.justify-content-center
+              .col-6.se
+                .sr.card.pb-3
+                  .card-body.text-dark
+                    //.gallery-controls
+    // Services
+    section#services.services.section-padding
+      .container
+        .row
+          .col-md-12
+            .section-header.text-center.pb-5
+              h2.titletext
+                | The 
+                span S
+                | ervices We Offer
+              p
+                | We go beyond luxurious accommodations to provide a range of top-notch services.
+                | From our gourmet restaurant to our outstanding amenities and exciting events, we&apos;re dedicated to making every moment of your stay exceptional.
+        .row
+          .col-12.col-md-12.col-lg-4
+            .card.text-center.bg-white.pb-2
+              .card-body.text-dark
+                .img-area.mb-4
+                  img.img-fluid(src='/assets/img/Restaurant.jpg' alt='')
+                h5.room-titletext
+                  span R
+                  | estaurant
+                p.lead
+                  | Savor the artistry of our culinary team at our restaurant. From gourmet breakfasts to delectable dinners, every dish is a masterpiece of flavor, prepared with the freshest ingredients to satisfy your palate.
+                button.btn.btn-primary.text-white Learn More
+          .col-12.col-md-12.col-lg-4
+            .card.text-center.bg-white.pb-2
+              .card-body.text-dark
+                .img-area.mb-4
+                  img.img-fluid(src='/assets/img/Gym1.jpg' alt='')
+                h5.room-titletext
+                  span A
+                  | menities
+                p.lead
+                  | Indulge in a world of relaxation with our top-notch amenities. Dive into our exquisite pool, rejuvenate at the spa, or maintain your fitness routine in our well-equipped gym. We&apos;ve thought of every detail to ensure your well-being.
+                button.btn.btn-primary.text-white Learn More
+          .col-12.col-md-12.col-lg-4
+            .card.text-center.bg-white.pb-2
+              .card-body.text-dark
+                .img-area.mb-4
+                  img.img-fluid(src='/assets/img/EventHall.jpg' alt='')
+                h5.room-titletext
+                  span E
+                  | vents
+                p.lead
+                  | Join us for an array of exciting events that add an extra layer of excitement to your stay. From live music nights to themed parties, we create memorable moments that make your visit to ARUGA truly unforgettable.
+                button.btn.btn-primary.text-white Learn More
+    // Contacts Section
+    section#contact.contact.section-padding
+      .container
+        .row
+          // 1st Column
+          .col-md-4.text-center
+            img(src='assets/img/logo-blue.png' alt='Company Logo' width='300')
+            address.m-3
+              | Company Address
+              br
+              |                     Street Address
+              br
+              |                     City, State, Zip Code
+              br
+          // 2nd Column
+          .col-md-4.text-center
+            ul
+              li.m-3 Contact Number 1: +1 (123) 456-7890
+              li.m-3 Contact Number 2: +1 (987) 654-3210
+              li.m-3 Landline: +1 (555) 123-4567
+              li.m-3
+                | Email: 
+                a(href='mailto:info@example.com') info@example.com
+          // 3rd Column
+          .col-md-4.text-center
+            ul
+              li.m-3
+                i.fa-brands.fa-facebook.fa-xl(style='color:#2055b1')
+              li.m-3
+                i.fa-brands.fa-x-twitter.fa-xl(style='color:#2055b1')
+              li.m-3
+                i.fa-brands.fa-instagram.fa-xl(style='color:#2055b1')
+      footer.text-center
+        p
+          a(href='#') TERMS &amp; CONDITIONS
+          |  |
+          a(href='#') FAQ
+          |  |
+          a(href='#') PRIVACY
+          |  |
+          a(href='#') TERMS OF USE
+    // Footer
+    .bg-primary.p-2.text-center
+      .container
+        p.text-white
+          | Copyright &copy; 2023 Aruga. All Rights Reserved.
+      script(src='/assets/js/script.js')
+      script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js')
+      script(src='https://kit.fontawesome.com/72e773f6c0.js' crossorigin='anonymous')

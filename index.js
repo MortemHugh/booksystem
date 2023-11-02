@@ -28,7 +28,6 @@ app.set('views', path.join(__dirname, 'views'))
 
 // routes
 const reservation = require('./routes/reservation')
-
 const landing = require('./routes/landing')
 
 // register routes as middleware

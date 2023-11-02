@@ -46,7 +46,6 @@ html(lang="en")
                                 a.nav-link.tab-pills(href='#') Stay Details
                                 a.nav-link.tab-pills(href='#') Guest Details
                                 a.nav-link.tab-pills(href='#') Payment
-                                a.nav-link.tab-pills(href='#') Finish
                         //- card body
                         .card-body
                             //- Stay Details tab
@@ -57,7 +56,7 @@ html(lang="en")
                                     input#roomtype.form-control(type='text', name='roomtype', readonly, value=roomType.roomtype)
                                 //- room number
                                 .mb-5
-                                    label.form-label.fw-bold(for='roomid') Room Number
+                                    label.form-label.fw-bold(for='roomid') Room Number (Note: The first number of a room number corresponds to the room floor)
                                     select.form-select(id='roomid', name='roomid')
                                         each r in rooms
                                             option(value=r.roomid)= r.roomnum
@@ -73,17 +72,17 @@ html(lang="en")
                                 //- number of days
                                 .mb-3
                                     label.form-label.fw-bold(for='numofdays') Number of Days
-                                    input#numofdays.form-control(type='number' name='numofdays' placeholder='' readonly required)
+                                    input#numofdays.form-control(type='number' name='numofdays' placeholder='' readonly)
                                 .row
                                     //- number of adults
                                     .mb-3.col-md-6
-                                        label.form-label.fw-bold(for='adultno') Number of Adults
+                                        label.form-label.fw-bold(for='adultno') Number of Adults (Age: 13 and above)
                                         input#adultno.form-control(type='number' name='adultno' placeholder='' min='1' max=roomType.capacity value=1 required)
                                     //- number of children
                                     .mb-5.col-md-6
-                                        label.form-label.fw-bold(for='childno') Number of Children
+                                        label.form-label.fw-bold(for='childno') Number of Children (Age: 12 and below)
                                         input#childno.form-control(type='number' name='childno' placeholder='' min='0' max=roomType.capacity-1 value = 0 required)
-                                
+                                                      
                             //- Guest Details tab
                             .tab.d-none
                                 //- last Name
@@ -105,6 +104,7 @@ html(lang="en")
 
                             //- Payment tab
                             .tab.d-none
+                                input(type='hidden' name='modeofpayment' value='Card')
                                 //- promo code
                                 .mb-3
                                     label.form-label.fw-bold(for='promocode') Promo Code (optional)
@@ -112,19 +112,67 @@ html(lang="en")
                                 .row
                                     input(type='hidden' name='description' value='Room Accommodation')
                                     //- price
-                                    .mb-3.col-md-6
+                                    .col-md-4.mb-3
                                         label.form-label.fw-bold(for='price') Price
-                                        input#price.form-control(type='number' name='price' placeholder='' readonly)
+                                        input#price.form-control(type='number' name='price' placeholder='' value=roomType.price readonly)
                                     //- qty
-                                    .mb-3.col-md-6
+                                    .col-md-4.mb-3
                                         label.form-label.fw-bold(for='qty') Number of Days
                                         input#qty.form-control(type='number' name='qty' placeholder='' readonly)
-                                //- amount
-                                .mb-3
-                                    label.form-label.fw-bold(for='amount') Amount
-                                    input#amount.form-control(type='number' name='amount' placeholder='' readonly)
-
+                                    //- amount
+                                    .col-md-4.mb-3
+                                        label.form-label.fw-bold(for='amount') Amount
+                                        input#amount.form-control(type='number' name='amount' placeholder='' readonly)
+                                input.btn.btn-primary(type="submit" value="Submit")
+                                //- payment info
+                                //-
+                                    h4 Card Details
+                                    .row
+                                        //- card name
+                                        .mb-3.col-md-6
+                                            label.form-label.fw-bold(for='cardname') Name on card
+                                            input#cardname.form-control(type='text' name='cardname' placeholder='')
+                                        //- card email
+                                        .mb-3.col-md-6
+                                            label.form-label.fw-bold(for='cardemail') Email
+                                            input#cardemail.form-control(type='email' name='cardemail' placeholder='')
+                                    //- card number
+                                    .mb-3
+                                        label.form-label.fw-bold(for='cardnumber') Card Number
+                                        input#cardnumber.form-control(type='text' name='cardnumber' placeholder='0000 0000 0000 0000')
+                                    .row
+                                        //- card expiration
+                                        .mb-3.col-md-6
+                                            label.form-label.fw-bold(for='expiration') Expiration Date
+                                            input#expiration.form-control(type='text' name='expiration' placeholder='MM/YYYY')
+                                        //- card cvc
+                                        .mb-3.col-md-6
+                                            label.form-label.fw-bold(for='cvc') CVC/CVV Number
+                                            input#cvc.form-control(type='number' name='cvc' placeholder='')                             
+ 
                             script.
+                                const checkInDateInput = document.querySelector('#checkindate')
+                                const checkOutDateInput = document.querySelector('#checkoutdate')
+                                const numOfDaysInput = document.querySelector('#numofdays')
+                                const priceInput = document.querySelector('#price')
+                                const qtyInput = document.querySelector('#qty')
+                                const amountInput = document.querySelector('#amount')
+                                const name = document.querySelector('#fullname')
+
+                                // set the minimum date for checkin and checkout date
+                                function updateCheckinMinDate() {
+                                    // Calculate the minimum date for check-in (current date + 1 day)
+                                    const today = new Date();
+                                    today.setDate(today.getDate() + 1);
+                                    const checkinDateInput = document.getElementById('checkindate');
+                                    checkinDateInput.min = today.toISOString().split('T')[0];
+                                }
+                           
+                                 // Call the function when the page loads
+                                window.addEventListener('load', function() {
+                                    updateCheckinMinDate();
+                                });
+
                                 // set the minimum date for checkin and checkout date
                                 function updateCheckoutMinDate() {
                                     // Calculate the minimum date for check-in (current date + 1 day)
@@ -140,44 +188,33 @@ html(lang="en")
                                     checkoutDateInput.min = checkoutMinDate.toISOString().split('T')[0];
                                 }
 
-                                // set the minimum date for checkin and checkout date
-                                function updateCheckinMinDate() {
-                                    // Calculate the minimum date for check-in (current date + 1 day)
-                                    const today = new Date();
-                                    today.setDate(today.getDate() + 1);
-                                    const checkinDateInput = document.getElementById('checkindate');
-                                    checkinDateInput.min = today.toISOString().split('T')[0];
-                                }
-
-                                 // Call the function when the page loads
-                                window.addEventListener('load', function() {
-                                    updateCheckinMinDate();
-                                });
-
                                 //- calculateNumDays
                                 function calculateNumDays() {
                                     const checkInDate = new Date(checkInDateInput.value)
                                     const checkOutDate = new Date(checkOutDateInput.value)
+                                    const price = priceInput.value
                                     const difference = checkOutDate - checkInDate
                                     const numDays = Math.floor(difference / (1000 * 60 * 60 * 24))
 
                                     numOfDaysInput.value = numDays
                                     qtyInput.value = numDays
+
+                                    amountInput.value = numDays * price
                                 }
 
                                 //- calculateNumDays is called
                                 checkInDateInput.addEventListener('change', calculateNumDays)
                                 checkOutDateInput.addEventListener('change', calculateNumDays)
-
-                            //- Finish tab
-                            .tab.d-none
-                                p All Set! Click submit to register this guest account.
-                                input.btn.btn-primary(type="submit" value="Submit") 
+                                
                         .card-footer.text-end
                             .d-flex
                                 button#back_button.btn.btn-link(type='button' onclick='back()') Back
                                 button#next_button.btn.btn-primary.ms-auto(type='button' onclick='next()') Next
 
+            form(action="/reservation/payment" method='POST')
+                script.stripe-button(id='stripe-button' src='//checkout.stripe.com/v2/checkout.js' data-key=key data-amount='' data-currency='php' data-name='' data-description='Room Reservation Payment' data-locale='auto')
+             
+            //-a.btn.btn-primary(href='/reservation1')
 
     //-Table
     script(src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')

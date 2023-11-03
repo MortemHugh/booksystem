@@ -29,12 +29,10 @@ app.set('views', path.join(__dirname, 'views'))
 // routes
 const reservation = require('./routes/reservation')
 const landing = require('./routes/landing')
-const about = require('./routes/about')
 
 // register routes as middleware
 app.use('/reservation', reservation)
 app.use('/landing', landing)
-app.use('/about', about)
 
 
 app.get('/', async(req, res)=>{

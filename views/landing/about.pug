@@ -2,32 +2,34 @@ head
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet')
-  link(rel='stylesheet' href='/assets/css/index.css')
-  link(rel='stylesheet' href='/assets/css/room.css')
+  link(rel='stylesheet' href='css/index.css')
+  link(rel='stylesheet' href='css/room.css')
   title About
+
 // Navigation Bar
 header
-  a.logo(href='index.html')
+  a.logo(href='/')
     | Aruga
     span .
   .menuTog(onclick='toggleMenu();')
-  ul.navigation
-    li
-      a(href='index.html' onclick='toggleMenu();') Home
-    li
-      a.header_active(href='about.html' onclick='toggleMenu();') About
-    li
-      a(href='rooms.html' onclick='toggleMenu();') Rooms
-    li
-      a(href='service.html' onclick='toggleMenu();') Services
-    li
-      a(href='booking.html' onclick='toggleMenu();') Booking
+    ul.navigation
+      li
+        a(href='/' onclick='toggleMenu();') Home
+      li
+        a.header_active(href='/about' onclick='toggleMenu();') About
+      li
+        a(href='/rooms' onclick='toggleMenu();') Rooms
+      li
+        a(href='/service' onclick='toggleMenu();') Services
+      li
+        a(href='/booking' onclick='toggleMenu();') Booking
+        
 // Image
 section#service_page.service_page
-  #carouselExampleCaptions.(data-bs-ride='carousel')
+  #carouselExampleCaptions(data-bs-ride='carousel')
     .carousel-inner.c_inner
       .carousel-item.active
-        img.d-block.w-100(src='/assets/img/Standarad.jpg' alt='...')
+        img.d-block.w-100(src='img/Standarad.jpg' alt='...')
         .carousel-caption.car-notmain
           h5 ARUGA
           p Where Comfort Meets Convenience in Style!
@@ -205,6 +207,6 @@ section#contact.contact.section-padding
   .container
     p.text-white
       | Copyright &copy; 2023 Aruga. All Rights Reserved.
-  script(src='/assets/js/script.js')
+  script(src='js/script.js')
   script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js')
   script(src='https://kit.fontawesome.com/72e773f6c0.js' crossorigin='anonymous')

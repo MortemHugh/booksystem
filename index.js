@@ -38,8 +38,8 @@ const service = require('./routes/service')
 // register routes as middleware
 app.use('/reservation', reservation)
 app.use('/landing', landing)
-app.use('/booking', about)
-app.use('/about', booking)
+app.use('/about', about)
+app.use('/booking', booking)
 app.use('/rooms', rooms)
 app.use('/service', service)
 
@@ -63,6 +63,8 @@ app.get('/', async(req, res)=>{
         console.error(error.message)
     }
 })
+
+
 
 
 const PORT = 5050

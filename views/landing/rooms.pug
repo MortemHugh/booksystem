@@ -2,26 +2,27 @@ head
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet')
-  link(rel='stylesheet' href='/assets/css/index.css')
-  link(rel='stylesheet' href='/assets/css/room.css')
+  link(rel='stylesheet' href='css/index.css')
+  link(rel='stylesheet' href='css/room.css')
   title Room
 // Navigation Bar
 header
-  a.logo(href='index.html')
+  a.logo(href='/')
     | Aruga
     span .
   .menuTog(onclick='toggleMenu();')
-  ul.navigation
-    li
-      a(href='index.html' onclick='toggleMenu();') Home
-    li
-      a(href='about.html' onclick='toggleMenu();') About
-    li
-      a.header_active(href='rooms.html' onclick='toggleMenu();') Rooms
-    li
-      a(href='service.html' onclick='toggleMenu();') Services
-    li
-      a(href='booking.html' onclick='toggleMenu();') Booking
+    ul.navigation
+      li
+        a(href='/' onclick='toggleMenu();') Home
+      li
+        a(href='/about' onclick='toggleMenu();') About
+      li
+        a.header_active(href='/rooms' onclick='toggleMenu();') Rooms
+      li
+        a(href='/service' onclick='toggleMenu();') Services
+      li
+        a(href='/booking' onclick='toggleMenu();') Booking
+        
 section#room_page.room_page
   #carouselExampleCaptions.carousel.slide(data-bs-ride='carousel')
     .carousel-indicators
@@ -81,9 +82,38 @@ section#room_page.room_page
           | Each space is a sanctuary where modern luxury and timeless style converge, ensuring a memorable stay for every guest.
 hr
 // 1. Standard Suite
+
 section#standard.section-padding
   .container
     .row
+    each h in allRoomTypeArray
+      .col-12.col-md-12.col-lg-3.mt-4
+        .card.bg-white.line-height.shadow.h-100
+          .card-body.text-dark
+            .img-area.mb-4
+              if h.roomimage
+                img.img-fluid.roomtype-img(src=`${h.roomimage}` alt='Room Type Image' style='object-position: center; width: 600px; height: 250px;')
+              else 
+                img.img-fluid.roomtype-img(src='images/sa/placeholder_hotel.jpg' alt='Room Type Image' style='object-position: center; width: 200px; height; 100px;')
+            h4.roomtype-name.mb-4
+              span #{h.roomtype}
+            if h.description
+              h6.roomtype-description.mb-3
+                | Description: 
+                span #{h.description}
+            if h.price      
+              h6.roomtype-price.mb-3
+                | Price: 
+                span #{h.price}
+            if h.capacity      
+              h6.roomtype-capacity.mb-3
+                | Capacity: 
+                span #{h.capacity}
+          .card-footer.pb-3.pt-3
+            .d-flex.justify-content-end
+              a.btn.btn-primary.sa-book-now.me-2(data-typeid=h.typeid href=`/reservation?typeid=${h.typeid}`, role='button') Book Now
+
+    //
       .col-lg-6.col-md-11.col-12
         .about-img
           img.img-fluid(src='assets/img/studio.jpg' alt='')
@@ -306,6 +336,6 @@ footer
     .container
       p.text-white
         | Copyright &copy; 2023 Aruga. All Rights Reserved.
-script(src='/assets/js/script.js')
+script(src='js/script.js')
 script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js')
 script(src='https://kit.fontawesome.com/72e773f6c0.js' crossorigin='anonymous')

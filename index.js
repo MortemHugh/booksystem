@@ -34,6 +34,7 @@ const booking = require('./routes/booking')
 const rooms = require('./routes/rooms')
 const service = require('./routes/service')
 
+
 // register routes as middleware
 app.use('/reservation', reservation)
 app.use('/landing', landing)

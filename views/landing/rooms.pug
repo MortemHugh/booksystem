@@ -22,44 +22,31 @@ header
         a(href='/service' onclick='toggleMenu();') Services
       li
         a(href='/booking' onclick='toggleMenu();') Booking
-        
+
+//- Carousel        
 section#room_page.room_page
   #carouselExampleCaptions.carousel.slide(data-bs-ride='carousel')
     .carousel-indicators
       button.active(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='0' aria-current='true' aria-label='Slide 1')
       button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='1' aria-label='Slide 2')
       button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='2' aria-label='Slide 3')
-      button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='3' aria-label='Slide 4')
-      button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='4' aria-label='Slide 5')
     .carousel-inner.c_inner
       .carousel-item.active
-        img.d-block.w-100(src='/assets/img/Standarad.jpg' alt='...')
+        img.d-block.w-100(src='img/Standarad.jpg' alt='...')
         .carousel-caption.car-notmain
           h5 First slide label
           p
             | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
       .carousel-item
-        img.d-block.w-100(src='/assets/img/Twin.jpg' alt='...')
+        img.d-block.w-100(src='img/Twin.jpg' alt='...')
         .carousel-caption.car-notmain
           h5 Second slide label
           p
             | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
       .carousel-item
-        img.d-block.w-100(src='/assets/img/Studio.jpg' alt='...')
+        img.d-block.w-100(src='img/Studio.jpg' alt='...')
         .carousel-caption.car-notmain
           h5 Third slide label
-          p
-            | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
-      .carousel-item
-        img.d-block.w-100(src='/assets/img/Executive.jpg' alt='...')
-        .carousel-caption.car-notmain
-          h5 Fourth slide label
-          p
-            | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
-      .carousel-item
-        img.d-block.w-100(src='/assets/img/Family.jpg' alt='...')
-        .carousel-caption
-          h5 Fifth slide label
           p
             | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
     button.carousel-control-prev(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide='prev')
@@ -68,6 +55,9 @@ section#room_page.room_page
     button.carousel-control-next(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide='next')
       span.carousel-control-next-icon(aria-hidden='true')
       span.visually-hidden Next
+
+
+//- Description      
 .container.mt-5
   .row
     .col-md-12
@@ -81,37 +71,38 @@ section#room_page.room_page
           | Discover a world of comfort and elegance in the heart of ARUGA. Our thoughtfully designed rooms and suites offer a variety of options to cater to your specific needs and preferences.
           | Each space is a sanctuary where modern luxury and timeless style converge, ensuring a memorable stay for every guest.
 hr
+
+//- Rooms SEction
 // 1. Standard Suite
 
-section#standard.section-padding
+section.section-padding
   .container
     .row
-    each h in allRoomTypeArray
-      .col-12.col-md-12.col-lg-3.mt-4
-        .card.bg-white.line-height.shadow.h-100
-          .card-body.text-dark
-            .img-area.mb-4
-              if h.roomimage
-                img.img-fluid.roomtype-img(src=`${h.roomimage}` alt='Room Type Image' style='object-position: center; width: 600px; height: 250px;')
-              else 
-                img.img-fluid.roomtype-img(src='images/sa/placeholder_hotel.jpg' alt='Room Type Image' style='object-position: center; width: 200px; height; 100px;')
-            h4.roomtype-name.mb-4
-              span #{h.roomtype}
-            if h.description
-              h6.roomtype-description.mb-3
-                | Description: 
-                span #{h.description}
-            if h.price      
-              h6.roomtype-price.mb-3
-                | Price: 
-                span #{h.price}
-            if h.capacity      
-              h6.roomtype-capacity.mb-3
-                | Capacity: 
-                span #{h.capacity}
-          .card-footer.pb-3.pt-3
-            .d-flex.justify-content-end
-              a.btn.btn-primary.sa-book-now.me-2(data-typeid=h.typeid href=`/reservation?typeid=${h.typeid}`, role='button') Book Now
+      each h in allRoomTypeArray
+        .col-md-6
+          .card
+            .card-body
+              .text-center
+                h4.roomtype-name.mb-4
+                  span #{h.roomtype}
+              if h.description
+                h6.roomtype-description.mb-3
+                  | Description: 
+                  span #{h.description}
+              if h.price      
+                h6.roomtype-price.mb-3
+                  | Price: 
+                  span #{h.price}
+              if h.capacity      
+                h6.roomtype-capacity.mb-3
+                  | Capacity: 
+                  span #{h.capacity}
+        .col-lg-6.col-md-11.col-12 
+          .about-img
+            if h.roomimage
+              img.img-fluid.roomtype-img(src=`${h.roomimage}` alt='Room Type Image' style='object-position: center; width: 600px; height: 250px;')
+            else 
+              img.img-fluid.roomtype-img(src='images/sa/placeholder_hotel.jpg' alt='Room Type Image' style='object-position: center; width: 200px; height: 100px;')
 
     //
       .col-lg-6.col-md-11.col-12
@@ -151,9 +142,6 @@ section#standard.section-padding
             .m-2
               i.fa-solid.fa-bell-concierge.fa-xl(style='color:#2055b1')
               span.ms-1 Room Service
-    .text-center
-      button.btn.btn-primary.text-white Check Availability
-    hr
 // 2. Twin Deluxe
 section#twin.section-padding
   .container
@@ -194,142 +182,11 @@ section#twin.section-padding
               span.ms-1 Room Service
       .col-lg-6.col-md-11.col-12
         .about-img
-          img.img-fluid(src='assets/img/Twin.jpg' alt='')
+          img.img-fluid(src='img/Twin.jpg' alt='')
     .text-center
       button.btn.btn-primary.text-white Check Availability
     hr
-// 3. Studio Suite
-section#studio.section-padding
-  .container
-    .row
-      .col-lg-6.col-md-11.col-12
-        .about-img
-          img.img-fluid(src='assets/img/studio.jpg' alt='')
-      .col-md-6
-        .card
-          .card-body
-            .text-center
-              h4.room-titletext
-                span S
-                | tudio 
-                span S
-                | uite
-            .text-center
-              p
-                | A serene retreat adorned with tasteful accents, where every detail has been meticulously curated to cocoon you in luxury and tranquility.
-            .d-flex.justify-content-between
-              p.card-text Beds: 1 Queen Bed Type
-              p.card-text No of Pax: 3 Guests
-              p.card-text Size: 20m&sup2;
-            .m-2
-              i.fa-solid.fa-tv.fa-xl(style='color:#2055b1')
-              span.ms-1 43&quot; Flat-Screen Television
-            .m-2
-              i.fa-solid.fa-wifi.fa-xl(style='color:#2055b1')
-              span.ms-1 5G Internet Connection
-            .m-2
-              i.fa-solid.fa-vault.fa-xl(style='color:#2055b1')
-              span.ms-1 Safe
-            .m-2
-              i.fa-solid.fa-bath.fa-xl(style='color:#2055b1')
-              span.ms-1 Shower, Sink, Toilet Bowl, Bidet, Waterheater, and Toiletries
-            .m-2
-              i.fa-solid.fa-couch.fa-xl(style='color:#2055b1')
-              span.ms-1 Coffee Table, Clothes Rack, Mirror, Armchairs
-            .m-2
-              i.fa-solid.fa-bell-concierge.fa-xl(style='color:#2055b1')
-              span.ms-1 Room Service
-    .text-center
-      button.btn.btn-primary.text-white Check Availability
-    hr
-// 4. Executive Suite
-section#executive.section-padding
-  .container
-    .row
-      .col-md-6
-        .card
-          .card-body
-            .text-center
-              h4.room-titletext
-                span E
-                | xecutive 
-                span S
-                | uite
-            .text-center
-              p
-                | A serene retreat adorned with tasteful accents, where every detail has been meticulously curated to cocoon you in luxury and tranquility.
-            .d-flex.justify-content-between
-              p.card-text Beds: 1 Queen Bed Type
-              p.card-text No of Pax: 3 Guests
-              p.card-text Size: 20m&sup2;
-            .m-2
-              i.fa-solid.fa-tv.fa-xl(style='color:#2055b1')
-              span.ms-1 43&quot; Flat-Screen Television
-            .m-2
-              i.fa-solid.fa-wifi.fa-xl(style='color:#2055b1')
-              span.ms-1 5G Internet Connection
-            .m-2
-              i.fa-solid.fa-vault.fa-xl(style='color:#2055b1')
-              span.ms-1 Safe
-            .m-2
-              i.fa-solid.fa-bath.fa-xl(style='color:#2055b1')
-              span.ms-1 Shower, Sink, Toilet Bowl, Bidet, Waterheater, and Toiletries
-            .m-2
-              i.fa-solid.fa-couch.fa-xl(style='color:#2055b1')
-              span.ms-1 Coffee Table, Clothes Rack, Mirror, Armchairs
-            .m-2
-              i.fa-solid.fa-bell-concierge.fa-xl(style='color:#2055b1')
-              span.ms-1 Room Service
-      .col-lg-6.col-md-11.col-12
-        .about-img
-          img.img-fluid(src='assets/img/Standarad.jpg' alt='')
-    .text-center
-      button.btn.btn-primary.text-white Check Availability
-    hr
-// 5. Family Suite
-section#family.section-padding
-  .container
-    .row
-      .col-lg-6.col-md-11.col-12
-        .about-img
-          img.img-fluid(src='assets/img/Family.jpg' alt='')
-      .col-md-6
-        .card
-          .card-body
-            .text-center
-              h4.room-titletext
-                span F
-                | amily 
-                span S
-                | uite
-            .text-center
-              p
-                | A serene retreat adorned with tasteful accents, where every detail has been meticulously curated to cocoon you in luxury and tranquility.
-            .d-flex.justify-content-between
-              p.card-text Beds: 1 Queen Bed Type
-              p.card-text No of Pax: 3 Guests
-              p.card-text Size: 20m&sup2;
-            .m-2
-              i.fa-solid.fa-tv.fa-xl(style='color:#2055b1')
-              span.ms-1 43&quot; Flat-Screen Television
-            .m-2
-              i.fa-solid.fa-wifi.fa-xl(style='color:#2055b1')
-              span.ms-1 5G Internet Connection
-            .m-2
-              i.fa-solid.fa-vault.fa-xl(style='color:#2055b1')
-              span.ms-1 Safe
-            .m-2
-              i.fa-solid.fa-bath.fa-xl(style='color:#2055b1')
-              span.ms-1 Shower, Sink, Toilet Bowl, Bidet, Waterheater, and Toiletries
-            .m-2
-              i.fa-solid.fa-couch.fa-xl(style='color:#2055b1')
-              span.ms-1 Coffee Table, Clothes Rack, Mirror, Armchairs
-            .m-2
-              i.fa-solid.fa-bell-concierge.fa-xl(style='color:#2055b1')
-              span.ms-1 Room Service
-    .text-center
-      button.btn.btn-primary.text-white Check Availability
-    hr
+
 // Footer
 footer
   .bg-primary.p-2.text-center

@@ -5,6 +5,7 @@ html(lang="en")
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
     link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet')
     link(rel='stylesheet' href='css/index.css')
+    link(rel='stylesheet', href='/css/modal.css')
     link(rel='stylesheet' href='css/room.css')
     title Index
 
@@ -19,13 +20,13 @@ html(lang="en")
           li
             a.header_active(href='#home_page' onclick='toggleMenu();') Home
           li
-            a(href=`about.pug` onclick='toggleMenu();') About
+            a(href='/about' onclick='toggleMenu();') About
           li
-            a(href='rooms.pug' onclick='toggleMenu();') Rooms
+            a(href='/rooms' onclick='toggleMenu();') Rooms
           li
-            a(href='service.pug' onclick='toggleMenu();') Services
+            a(href='/service' onclick='toggleMenu();') Services
           li
-            a(href='booking.pug' onclick='toggleMenu();') Booking
+            a(href='/booking' onclick='toggleMenu();') Booking
     
     //- Home
     //- Carousel Hero
@@ -341,3 +342,6 @@ html(lang="en")
       script(src='js/script.js')
       script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js')
       script(src='https://kit.fontawesome.com/72e773f6c0.js' crossorigin='anonymous')
+      script(src='/js/modal.js') 
+
+      

@@ -1,4 +1,4 @@
-var current = 0;
+/*var current = 0;
 var tabs = $(".tab");
 var tabs_pill = $(".tab-pills");
 
@@ -9,7 +9,7 @@ function loadFormData(n) {
   $(tabs[n]).removeClass("d-none");
   $("#back_button").attr("disabled", n == 0 ? true : false);
   n == tabs.length - 1
-    ? $("#next_button").text("Submit").removeAttr("onclick")
+    ? $("#next_button").text("").removeAttr("onclick")
     : $("#next_button")
         .attr("type", "button")
         .text("Next")
@@ -70,9 +70,9 @@ function back() {
 
   current--;
   loadFormData(current);
-}
+}*/
 
-/*var current = 0;
+var current = 0;
 var tabs = $(".tab");
 var tabs_pill = $(".tab-pills");
 
@@ -83,7 +83,7 @@ function loadFormData(n) {
   $(tabs[n]).removeClass("d-none");
   $("#back_button").attr("disabled", n == 0 ? true : false);
   if (n == tabs.length - 1) {
-    $("#next_button").text("Submit").removeAttr("onclick");
+    $("#next_button").text("").removeAttr("onclick");
   } else {
     $("#next_button")
       .attr("type", "button")
@@ -104,18 +104,7 @@ function loadFormData(n) {
   }
 }
 
-function next() {
-  if (current === 0) {
-    const adultNo = parseInt($("#adultno").val());
-    const childNo = parseInt($("#childno").val());
-    const capacity = parseInt($("#roomtype").attr("max"));
-
-    if (isNaN(adultNo) || isNaN(childNo) || adultNo + childNo > capacity) {
-      alert("The number of adults or/and children exceeds the maximum capacity of the room " + "("+capacity+")");
-      return;
-    }
-  }
-
+async function next() {
   // Check if all required fields are filled
   var currentTab = tabs[current];
   var requiredFields = $(currentTab).find("input[required]:visible, select[required]:visible");
@@ -133,10 +122,50 @@ function next() {
   if (hasEmptyFields) {
     alert("Please fill in all required fields.");
   } else {
+    // Check room availability
+    if (current === 0) {
+      const adultNo = parseInt($("#adultno").val());
+      const childNo = parseInt($("#childno").val());
+      const capacity = parseInt($("#adultno").attr("max"));
+      // Additional check for room availability
+      const roomnum = $("#roomnum").val();
+      const checkindate = $("#checkindate").val();
+      const checkoutdate = $("#checkoutdate").val();
+
+      if (isNaN(adultNo) || isNaN(childNo) || adultNo + childNo > capacity) {
+        alert("The number of adults or/and children exceeds the maximum capacity of the room. Maximum capacity is " + capacity);
+        return;
+      }
+
+      // Perform asynchronous room availability check
+      const isRoomAvailable = await checkRoomAvailability(roomnum, checkindate, checkoutdate);
+
+      if (!isRoomAvailable) {
+        alert("The room is already reserved for the selected dates. Please choose a different room or change the dates.");
+        return;
+      }
+    }
+
     $(tabs[current]).addClass("d-none");
     $(tabs_pill[current]).removeClass("active");
     current++;
     loadFormData(current);
+  }
+}
+
+async function checkRoomAvailability(roomnum, checkindate, checkoutdate) {
+  try {
+    // Make an AJAX request to your server to check room availability
+    const response = await $.ajax({
+      type: 'POST',
+      url: '/checkRoomAvailability', // Replace with your actual API endpoint
+      data: { roomnum, checkindate, checkoutdate },
+    });
+
+    return response.isAvailable; // Assuming the response from the server contains an "isAvailable" property.
+  } catch (error) {
+    console.error('Error checking room availability:', error);
+    return false;
   }
 }
 
@@ -145,5 +174,5 @@ function back() {
   $(tabs_pill[current]).removeClass("active");
   current--;
   loadFormData(current);
-}*/
+}
 

@@ -45,6 +45,12 @@ router.get('/', async(req, res)=>{
             return;
         }
         const roomType = roomTypeResult.rows[0];
+
+        roomTypeResult.rows.forEach(row => {
+            if (row.roomimage) {
+                row.roomimage = 'data:' + row.imagetype + ';base64,' + row.roomimage.toString('base64');
+            }
+        });
        const rooms = await pool.query(
            'SELECT * FROM rooms r JOIN room_type rt ON r.typeid = rt.typeid WHERE r.typeid = $1 AND r.hotelid = $2 AND r.status NOT IN ($3, $4)',
            [typeId, hotelid, 'On-Change', 'Out-of-Order']
@@ -53,46 +59,11 @@ router.get('/', async(req, res)=>{
        //console.log(roomType);
     
     res.render('reservation/reservation', {
+        image: roomTypeResult.rows,
         roomType: roomType,
         key: publishable_key,
         rooms: rooms.rows 
     })
-})
-
-router.get('/', (req, res) => {
-    const typeid = req.query.typeid;
-    pool.query('SELECT capacity FROM room_type WHERE typeid = $1', [typeid], (error, results) => {
-        if (error) {
-            console.error(error);
-            res.status(500).json({ error: 'Database error' });
-        } else {
-            res.json({ capacity: results.rows[0].capacity });
-        }
-    });
-});
-
-router.post('/payment', function(req, res){
-
-    stripe.customers.create({
-        email: req.body.stripeEmail,
-        source: req.body.stripeToken,
-        name: 'CJ Cantilado',
-    })
-    .then((customer) => {
- 
-        return stripe.charges.create({
-            amount: '10000',
-            description: 'Room Reservation Payment',
-            currency: 'PHP',
-            customer: customer.id
-        });
-    })
-    .then((charge) => {
-        res.status(200).send("Payment Successful!"); // If no error occurs
-    })
-    .catch((err) => {
-        console.log(err);       // If some error occurs
-    });
 })
 
 // handle reservation 
@@ -101,7 +72,7 @@ router.post('/reserve', async (req, res) => {
       checkindate, checkoutdate, numofdays, adultno, childno,
       roomtype, roomid, promocode,
       fullname, address, email, contactno,
-      modeofpayment, approvalcode, description, price, qty, amount
+      approvalcode, description, price, qty, amount
     } = req.body;
   
     const date = getCurrentDate();
@@ -111,7 +82,52 @@ router.post('/reserve', async (req, res) => {
   
     try {
         await client.query('BEGIN');
-        
+
+        // Check if the selected room is already reserved for the requested date range
+        /*const existingReservation = await client.query(
+            'SELECT * FROM reservations ' +
+            'WHERE roomid = $1 ' +
+            'AND ($2 >= checkindate AND $2 <= checkoutdate ' +
+            'OR $3 >= checkindate AND $3 <= checkoutdate ' +
+            'OR checkindate >= $2 AND checkindate <= $3 ' +
+            'OR checkoutdate >= $2 AND checkoutdate <= $3)',
+            [roomid, checkindate, checkoutdate]
+        );
+    
+        if (existingReservation.rows.length > 0) {
+            // Room is already reserved for the requested date range
+            res.status(400).send("Room is already reserved for the selected dates. Please select other dates");
+            return;
+        }
+        else{
+
+        }*/
+
+        const allRoomType = await pool.query('SELECT * FROM room_type WHERE hotelid = $1', [hotelid])
+
+        // Convert binary data to base64 string
+        allRoomType.rows.forEach(row => {
+            if (row.roomimage) {
+                row.roomimage = 'data:' + row.imagetype + ';base64,' + row.roomimage.toString('base64')
+            }
+        })
+
+        const customer = await stripe.customers.create({
+            email: req.body.stripeEmail,
+            source: req.body.stripeToken,
+            name: fullname,
+        });
+    
+        // Convert amount to an integer and add two decimal places
+        const amountInCents = (parseFloat(amount) * 100).toFixed(0);
+    
+        await stripe.charges.create({
+            amount: amountInCents,
+            description: 'Room Reservation Payment',
+            currency: 'PHP',
+            customer: customer.id
+        });
+
         //- Get the typeid of room type
         const typeidresult = await client.query('SELECT typeid FROM room_type WHERE roomtype = $1', [roomtype]);
         const typeid = typeidresult.rows[0].typeid;
@@ -133,12 +149,12 @@ router.post('/reserve', async (req, res) => {
         }
     
         const q1 = `
-            INSERT INTO reservations(reservationid, hotelid, typeid, roomid, adultno, childno, reservationdate, checkindate, checkoutdate, numofdays, modeofpayment, promocode)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+            INSERT INTO reservations(reservationid, hotelid, typeid, roomid, adultno, childno, reservationdate, checkindate, checkoutdate, numofdays, promocode)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
             RETURNING *
         `;
     
-        const q1result = await client.query(q1, [reservationid, hotelid, typeid, roomid, adultno, childno, date, checkindate, checkoutdate, numofdays, modeofpayment, promocode]);
+        const q1result = await client.query(q1, [reservationid, hotelid, typeid, roomid, adultno, childno, date, checkindate, checkoutdate, numofdays, promocode]);
         const reservationID = q1result.rows[0].reservationid;
     
         const q2 = `
@@ -151,22 +167,22 @@ router.post('/reserve', async (req, res) => {
 
         //- Generate an access token
         const ACCESS_TOKEN = await oAuth2Client.getAccessToken();
-  
+
         const transporter = nodemailer.createTransport({
             service: "gmail",
             auth: {
-              type: "OAuth2",
-              user: MY_EMAIL,
-              clientId: CLIENT_ID,
-              clientSecret: CLIENT_SECRET,
-              refreshToken: REFRESH_TOKEN,
-              accessToken: ACCESS_TOKEN,
+            type: "OAuth2",
+            user: MY_EMAIL,
+            clientId: CLIENT_ID,
+            clientSecret: CLIENT_SECRET,
+            refreshToken: REFRESH_TOKEN,
+            accessToken: ACCESS_TOKEN,
             },
             tls: {
-              rejectUnauthorized: true,
+            rejectUnauthorized: true,
             },
         });
-  
+
         /*const htmlContent = `
             <html>
                 <body>
@@ -697,8 +713,7 @@ router.post('/reserve', async (req, res) => {
             } else {
                 client.query('COMMIT');
                 console.log('Email sent: ' + info.response);
-                res.status(200).send("Reservation Complete. Please check your email for your email confirmation.");
-                //res.redirect('/confirmation');
+                res.render('reservation/confirmation');
             }
         });
         } catch (error) {
@@ -710,5 +725,37 @@ router.post('/reserve', async (req, res) => {
         }
     });
 
+
+// Route handler for checking room existence and date range
+router.post('/checkRoomAvailability', async (req, res) => {
+    try {
+      const { roomnum, checkindate, checkoutdate } = req.body;
+  
+      // Get the roomid of roomnum
+      const roomidresult = await client.query('SELECT roomid FROM rooms WHERE roomnum = \$1', [roomnum]);
+      const roomid = roomidresult.rows[0].roomid;
+  
+      // Query the database to check room availability
+      const query = `
+        SELECT *
+        FROM reservations
+        WHERE roomid = \$1
+        AND
+          checkindate <= \$2 AND checkoutdate >= \$3
+      `;
+   
+      const result = await client.query(query, [roomid, checkoutdate, checkindate]);
+  
+      // If any rows are returned, the room is not available
+      if (result.rows.length > 0) {
+        res.json({ isAvailable: false });
+      } else {
+        res.json({ isAvailable: true });
+      }
+    } catch (error) {
+      console.error('Error checking room availability:', error);
+      res.status(500).json({ error: 'An error occurred while checking room availability.' });
+    }
+  });
 
 module.exports = router

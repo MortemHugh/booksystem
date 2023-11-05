@@ -1,0 +1,10 @@
+mixin confirmation
+  #modal.modal
+    .modal-content
+      .modal-header
+        h5.modal-title(id='') Reservation Complete
+        button.btn-close(type='button', onclick='closeModal()', aria-label='Close')
+      .modal-body.mb-3
+        p Please check your email for your email confirmation.
+      .modal-footer.mt-3
+        button.btn.btn-secondary(type='button', onclick='closeModal()') Close

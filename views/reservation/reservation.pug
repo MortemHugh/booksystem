@@ -52,10 +52,19 @@ html(lang="en")
                             .tab.d-none
                                 //- room type
                                 .mb-3
-                                    label.form-label.fw-bold(for='roomtype') Room Types
+                                    label.form-label.fw-bold(for='roomtype') Room Type
                                     input#roomtype.form-control(type='text', name='roomtype', readonly, value=roomType.roomtype)
+                                //- room image
+                                .mb-1
+                                    label.form-label.fw-bold(for='roomimage') Room Image
+                                each h in image
+                                    if h.roomimage
+                                        img.img-fluid.roomtype-img(src=`${h.roomimage}` alt='Room Type Image' style='object-position: center; width: 350px; height: 200px;')
+                                    else 
+                                        img.img-fluid.roomtype-img(src='images/sa/placeholder_hotel.jpg' alt='Room Type Image' style='object-position: center; width: 200px; height: 100px;')
                                 //- room number
                                 .mb-5
+                                    <br>
                                     label.form-label.fw-bold(for='roomid') Room Number (Note: The first number of a room number corresponds to the room floor)
                                     select.form-select(id='roomid', name='roomid')
                                         each r in rooms
@@ -123,7 +132,9 @@ html(lang="en")
                                     .col-md-4.mb-3
                                         label.form-label.fw-bold(for='amount') Amount
                                         input#amount.form-control(type='number' name='amount' placeholder='' readonly)
-                                input.btn.btn-primary(type="submit" value="Submit")
+                                form(action="/reservation/reserve" method='POST')
+                                    script.stripe-button(id='stripe-button' src='//checkout.stripe.com/v2/checkout.js' data-key=key data-amount='' data-currency='php' data-name='' data-description='Room Reservation Payment' data-locale='auto')
+             
                                 //- payment info
                                 //-
                                     h4 Card Details
@@ -210,11 +221,6 @@ html(lang="en")
                             .d-flex
                                 button#back_button.btn.btn-link(type='button' onclick='back()') Back
                                 button#next_button.btn.btn-primary.ms-auto(type='button' onclick='next()') Next
-
-            form(action="/reservation/payment" method='POST')
-                script.stripe-button(id='stripe-button' src='//checkout.stripe.com/v2/checkout.js' data-key=key data-amount='' data-currency='php' data-name='' data-description='Room Reservation Payment' data-locale='auto')
-             
-            //-a.btn.btn-primary(href='/reservation1')
 
     //-Table
     script(src='https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js')

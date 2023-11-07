@@ -174,7 +174,7 @@ html(lang="en")
                                 function updateCheckinMinDate() {
                                     // Calculate the minimum date for check-in (current date + 1 day)
                                     const today = new Date();
-                                    today.setDate(today.getDate() + 2);
+                                    today.setDate(today.getDate() + 1);
                                     const checkinDateInput = document.getElementById('checkindate');
                                     checkinDateInput.min = today.toISOString().split('T')[0];
                                 }
@@ -187,10 +187,10 @@ html(lang="en")
                                 // set the minimum date for checkin and checkout date
                                 function updateCheckoutMinDate() {
                                     // Calculate the minimum date for check-in (current date + 1 day)
-                                    /*const today = new Date();
+                                    const today = new Date();
                                     today.setDate(today.getDate() + 1);
                                     const checkinDateInput = document.getElementById('checkindate');
-                                    checkinDateInput.min = today.toISOString().split('T')[0];*/
+                                    checkinDateInput.min = today.toISOString().split('T')[0];
 
                                     // Calculate the minimum date for check-out (check-in date + 1 day)
                                     const checkinDate = new Date(checkinDateInput.value);

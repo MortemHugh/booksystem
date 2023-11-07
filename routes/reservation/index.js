@@ -164,6 +164,12 @@ router.post('/reserve', async (req, res) => {
     
         await client.query(q2, [reservationID, hotelid, fullname, email, contactno, address]);
 
+        const q3 = `
+            UPDATE rooms SET status = 'Reserved' WHERE hotelid = $1 AND roomid = $2
+        `;
+    
+        await client.query(q3, [hotelid, roomid]);
+
 
         //- Generate an access token
         const ACCESS_TOKEN = await oAuth2Client.getAccessToken();
@@ -726,36 +732,44 @@ router.post('/reserve', async (req, res) => {
     });
 
 
-// Route handler for checking room existence and date range
 router.post('/checkRoomAvailability', async (req, res) => {
     try {
-      const { roomnum, checkindate, checkoutdate } = req.body;
-  
-      // Get the roomid of roomnum
-      const roomidresult = await client.query('SELECT roomid FROM rooms WHERE roomnum = \$1', [roomnum]);
-      const roomid = roomidresult.rows[0].roomid;
-  
-      // Query the database to check room availability
-      const query = `
-        SELECT *
-        FROM reservations
-        WHERE roomid = \$1
-        AND
-          checkindate <= \$2 AND checkoutdate >= \$3
-      `;
-   
-      const result = await client.query(query, [roomid, checkoutdate, checkindate]);
-  
-      // If any rows are returned, the room is not available
-      if (result.rows.length > 0) {
-        res.json({ isAvailable: false });
-      } else {
-        res.json({ isAvailable: true });
-      }
+        const { roomnum, checkindate, checkoutdate } = req.body;
+
+        console.log(`Received request with roomnum: ${roomnum}, checkindate: ${checkindate}, checkoutdate: ${checkoutdate}`); // Add this line
+    
+        // Get the roomid of roomnum
+        const roomidresult = await pool.query('SELECT roomid FROM rooms WHERE roomnum = $1', [roomnum]);
+        const roomid = roomidresult.rows[0].roomid;
+    
+        // Query the database to check room availability
+        const query = `
+            SELECT *
+            FROM reservations
+            WHERE roomid = $1
+            AND (
+            (checkindate <= $2 AND checkoutdate >= $2)  -- Check-in date overlaps
+            OR
+            (checkindate <= $3 AND checkoutdate >= $3)  -- Checkout date overlaps
+            OR
+            (checkindate >= $2 AND checkoutdate <= $3)  -- New reservation is within an existing one
+            );
+        `;
+    
+        const result = await pool.query(query, [roomid, checkindate, checkoutdate]);
+
+        console.log(`Query result: ${result.rows}`); // Add this line
+    
+        // If any rows are returned, the room is not available
+        if (result.rows.length > 0) {
+            res.json({ isAvailable: false });
+        } else {
+            res.json({ isAvailable: true });
+        }
     } catch (error) {
-      console.error('Error checking room availability:', error);
-      res.status(500).json({ error: 'An error occurred while checking room availability.' });
+        console.error('Error checking room availability:', error);
+        res.status(500).json({ error: 'An error occurred while checking room availability.' });
     }
-  });
+});
 
 module.exports = router

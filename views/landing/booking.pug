@@ -20,31 +20,31 @@ section#service_page.service_page
       button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='4' aria-label='Slide 5')
     .carousel-inner.c_inner
       .carousel-item.active
-        img.d-block.w-100(src='/assets/img/Standarad.jpg' alt='...')
+        img.d-block.w-100(src='img/Standarad.jpg' alt='...')
         .carousel-caption
           h5 First slide label
           p
             | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
       .carousel-item
-        img.d-block.w-100(src='/assets/img/Twin.jpg' alt='...')
+        img.d-block.w-100(src='img/Twin.jpg' alt='...')
         .carousel-caption
           h5 Second slide label
           p
             | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
       .carousel-item
-        img.d-block.w-100(src='/assets/img/Studio.jpg' alt='...')
+        img.d-block.w-100(src='img/Studio.jpg' alt='...')
         .carousel-caption
           h5 Third slide label
           p
             | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
       .carousel-item
-        img.d-block.w-100(src='/assets/img/Executive.jpg' alt='...')
+        img.d-block.w-100(src='img/Executive.jpg' alt='...')
         .carousel-caption
           h5 Fourth slide label
           p
             | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
       .carousel-item
-        img.d-block.w-100(src='/assets/img/Family.jpg' alt='...')
+        img.d-block.w-100(src='img/Family.jpg' alt='...')
         .carousel-caption
           h5 Fifth slide label
           p
@@ -55,38 +55,7 @@ section#service_page.service_page
     button.carousel-control-next(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide='next')
       span.carousel-control-next-icon(aria-hidden='true')
       span.visually-hidden Next
-section#booking-form.section-padding
-  .container
-    h2.text-center Book a Room
-    .row.justify-content-center
-      .col-md-6
-        form(action='book.php' method='POST')
-          // Room selection
-          .mb-3
-            label.form-label(for='room-type') Select Room Type
-            select#room-type.form-select(name='room-type' required='')
-              option(value='standard-suite') Standard Suite
-              option(value='twin-deluxe') Twin Deluxe
-              option(value='studio-suite') Studio Suite
-              option(value='executive-suite') Executive Suite
-              option(value='family-suite') Family Suite
-          // Check-in and Check-out
-          .mb-3
-            label.form-label(for='check-in') Check-in Date
-            input#check-in.form-control(type='text' name='check-in' required='')
-          .mb-3
-            label.form-label(for='check-out') Check-out Date
-            input#check-out.form-control(type='text' name='check-out' required='')
-          // Other booking details (e.g., number of guests, special requests)
-          .mb-3
-            label.form-label(for='guests') Number of Guests
-            input#guests.form-control(type='number' name='guests' required='')
-          .mb-3
-            label.form-label(for='special-requests') Special Requests
-            textarea#special-requests.form-control(name='special-requests' rows='4')
-          // Submit button
-          .text-center
-            button.btn.btn-primary(type='submit') Submit Booking
+
 // Footer
 .bg-primary.p-2.text-center
   .container
@@ -98,10 +67,3 @@ section#booking-form.section-padding
   script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js')
   script(src='https://kit.fontawesome.com/72e773f6c0.js' crossorigin='anonymous')
   script(src='js/nav-active.js')  
-  script.
-    $(document).ready(function() {
-    $('#check-in, #check-out').datepicker({
-    format: 'yyyy-mm-dd',
-    autoclose: true,
-    });
-    });

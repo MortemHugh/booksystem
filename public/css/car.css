@@ -1,0 +1,126 @@
+.carousel-control-prev,
+.carousel-control-next {
+  width: 60px; /* Size of the button */
+  height: 60px;
+  border-radius: 50%; /* Makes it circular */
+  background-color: #fff; /* Button background color */
+  border: none; /* Remove any borders */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Adds shadow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 24px; /* Adjust size as needed */
+
+}
+
+.carousel-control-prev span,
+.carousel-control-next span {
+  color: black; /* Arrow color */
+  font-size: 20px; /* Adjust arrow size if necessary */
+  display: inline-block;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none; /* Remove default images */
+}
+
+.carousel-control-prev-icon:after,
+.carousel-control-next-icon:after {
+  font-family: 'Font Awesome 5 Free'; /* Use Font Awesome or similar */
+  font-weight: 900; /* Ensure it's bold if using Font Awesome */
+}
+
+.carousel-control-prev-icon:after {
+  content: '\f104'; /* Font Awesome left arrow */
+}
+
+.carousel-control-next-icon:after {
+  content: '\f105'; /* Font Awesome right arrow */
+}
+
+/* Additional styles to position the buttons correctly */
+.carousel-control-prev {
+  left: -20px; /* Adjust as needed for proper positioning */
+}
+
+.carousel-control-next {
+  right: -20px; /* Adjust as needed for proper positioning */
+}
+
+
+
+
+/* as as*/
+
+
+.slick-prev{
+  width: 60px; /* Size of the button */
+  height: 60px;
+  border-radius: 50%; /* Makes it circular */
+  background-color: #fff; /* Button background color */
+  border: none; /* Remove any borders */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Adds shadow */
+  font-size: 24px; /* Adjust size as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-800%);
+  position: relative;
+}
+.slick-next{
+    width: 60px; /* Size of the button */
+    height: 60px;
+    border-radius: 50%; /* Makes it circular */
+    background-color: #fff; /* Button background color */
+    border: none; /* Remove any borders */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Adds shadow */
+    font-size: 24px; /* Adjust size as needed */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0%;
+    left: 105%;
+    transform: translateY(-800%);
+    position: relative;
+}
+.carousel-control-prev span,
+.slick-next span {
+  color: black; /* Arrow color */
+  font-size: 20px; /* Adjust arrow size if necessary */
+  display: inline-block;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none; /* Remove default images */
+}
+
+.carousel-control-prev-icon:after,
+.carousel-control-next-icon:after {
+  font-family: 'Font Awesome 5 Free'; /* Use Font Awesome or similar */
+  font-weight: 900; /* Ensure it's bold if using Font Awesome */
+}
+
+.carousel-control-prev-icon:after {
+  content: '\f104'; /* Font Awesome left arrow */
+}
+
+.carousel-control-next-icon:after {
+  content: '\f105'; /* Font Awesome right arrow */
+}
+
+/* Additional styles to position the buttons correctly */
+.carousel-control-prev {
+  left: -20px; /* Adjust as needed for proper positioning */
+}
+
+.slick-next {
+  right: -20px; /* Adjust as needed for proper positioning */
+}
+

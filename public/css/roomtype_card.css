@@ -17,3 +17,35 @@
   border: 10px solid white; /* This adds a white border around the image */
   box-sizing: border-box; /* This ensures the border is included in the width and height of the element */
 }
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+  .card-img-top,
+  .card-img {
+    height: 200px; /* Adjust the height as necessary */
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .card-img-top,
+  .card-img {
+    height: 250px; /* Adjust the height as necessary */
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .card-img-top,
+  .card-img {
+    height: 300px; /* This could be your default if you wish */
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .card-img-top,
+  .card-img {
+    height: 350px; /* Optionally larger images for larger screens */
+  }
+}

@@ -171,7 +171,7 @@ header .navigation li a:hover{
     line-height: 1.9;
 }
 
-.carousel-inner::before {
+.c_inner-head::before {
     content: '';
     position: absolute;
     width: 100%;
@@ -182,7 +182,7 @@ header .navigation li a:hover{
     z-index: 1;
 }
 
-.c_inner .carousel-item{
+.c_inner .carousel-item-head{
     height: 80vh;
 }
 
@@ -355,6 +355,4 @@ header .navigation li a:hover{
         width: auto;
     }
 }
-
-
 

@@ -2,9 +2,11 @@ head
   meta(charset='UTF-8')
   meta(name='viewport' content='width=device-width, initial-scale=1.0')
   link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet')
+  link(href='https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css' rel='stylesheet')
   link(rel='stylesheet' href='css/index.css')
   link(rel='stylesheet' href='css/room.css')
   link(rel='stylesheet' href='css/roomtype_card.css')
+  link(rel='stylesheet' href='css/car.css')
   title Room
 // Navigation Bar
 header
@@ -71,7 +73,48 @@ section#room_page.room_page
         p
           | Discover a world of comfort and elegance in the heart of ARUGA. Our thoughtfully designed rooms and suites offer a variety of options to cater to your specific needs and preferences.
           | Each space is a sanctuary where modern luxury and timeless style converge, ensuring a memorable stay for every guest.
-hr
+
+
+  <br>
+    section.rooms.rm.room.section-padding
+      .content
+        .row.mx-5
+          .col-md-12
+            .room-title.section-header.text-center.pb-1
+              h2.titletext
+                | Our Available 
+                span R
+                | ooms
+              p
+                | Diverse range of meticulously designed rooms and suites, each tailored to meet your specific needs and preferences.
+
+         
+
+<br>
+.content
+  .container
+    .room-slider.slick-slider.mx-5
+      each h in allRoomTypeArray
+        .slide-item
+          .card.room-card.h-100
+            if h.roomimage
+              img.img-fluid.card-img-top(src=`${h.roomimage}` alt='Room Type Image')
+            else 
+              img.img-fluid.card-img-top(src='images/sa/placeholder_hotel.jpg' alt='Room Type Image')
+            .card-body
+              h5.card-title #{h.roomtype}
+              p.card-text.price Php #{h.price} per night
+              hr
+              .features
+                p Features
+                ul
+                  li 2 Rooms | 1 Bathroom | 1 Sofa
+            .card-footer
+              a.btn.btn-primary(href='#') Book Now
+              a.btn.btn-secondary(href='#') More Details
+    .carousel-controls
+      button.slick-prev Previous
+      button.slick-next Next          
 
 //- Rooms SEction
 // 1. Standard Suite
@@ -126,54 +169,54 @@ section.section-padding
                 i.fa-solid.fa-bell-concierge.fa-xl(style='color:#2055b1')
                 span.ms-1 Room Service   
             .card-footer
-              .d-flex.justify-content-end
+              .d-flex.justify-content-center
                 a.btn.btn-primary.sa-book-now.me-2(data-typeid=h.typeid href=`/reservation?typeid=${h.typeid}`, role='button') Book Now
 
 
 //- 2. Twin Deluxe (Need to delete)
-section#twin.section-padding
-  .container
-    .row
-      .col-md-6
-        .card
-          .card-body
-            .text-center
-              h4.room-titletext
-                span T
-                | win 
-                span D
-                | eluxe
-            .text-center
-              p
-                | A serene retreat adorned with tasteful accents, where every detail has been meticulously curated to cocoon you in luxury and tranquility.
-            .d-flex.justify-content-between
-              p.card-text Beds: 2 Standard Bed Type
-              p.card-text No of Pax: 4 Guests
-              p.card-text Size: 20m&sup2;
-            .m-2
-              i.fa-solid.fa-tv.fa-xl(style='color:#2055b1')
-              span.ms-1 43&quot; Flat-Screen Television
-            .m-2
-              i.fa-solid.fa-wifi.fa-xl(style='color:#2055b1')
-              span.ms-1 5G Internet Connection
-            .m-2
-              i.fa-solid.fa-vault.fa-xl(style='color:#2055b1')
-              span.ms-1 Safe
-            .m-2
-              i.fa-solid.fa-bath.fa-xl(style='color:#2055b1')
-              span.ms-1 Shower, Sink, Toilet Bowl, Bidet, Waterheater, and Toiletries
-            .m-2
-              i.fa-solid.fa-couch.fa-xl(style='color:#2055b1')
-              span.ms-1 Coffee Table, Clothes Rack, Mirror, Armchairs
-            .m-2
-              i.fa-solid.fa-bell-concierge.fa-xl(style='color:#2055b1')
-              span.ms-1 Room Service
-      .col-lg-6.col-md-11.col-12
-        .about-img
-          img.img-fluid(src='img/Twin.jpg' alt='')
-    .text-center
-      button.btn.btn-primary.text-white Check Availability
-    hr
+  section#twin.section-padding
+    .container
+      .row
+        .col-md-6
+          .card
+            .card-body
+              .text-center
+                h4.room-titletext
+                  span T
+                  | win 
+                  span D
+                  | eluxe
+              .text-center
+                p
+                  | A serene retreat adorned with tasteful accents, where every detail has been meticulously curated to cocoon you in luxury and tranquility.
+              .d-flex.justify-content-between
+                p.card-text Beds: 2 Standard Bed Type
+                p.card-text No of Pax: 4 Guests
+                p.card-text Size: 20m&sup2;
+              .m-2
+                i.fa-solid.fa-tv.fa-xl(style='color:#2055b1')
+                span.ms-1 43&quot; Flat-Screen Television
+              .m-2
+                i.fa-solid.fa-wifi.fa-xl(style='color:#2055b1')
+                span.ms-1 5G Internet Connection
+              .m-2
+                i.fa-solid.fa-vault.fa-xl(style='color:#2055b1')
+                span.ms-1 Safe
+              .m-2
+                i.fa-solid.fa-bath.fa-xl(style='color:#2055b1')
+                span.ms-1 Shower, Sink, Toilet Bowl, Bidet, Waterheater, and Toiletries
+              .m-2
+                i.fa-solid.fa-couch.fa-xl(style='color:#2055b1')
+                span.ms-1 Coffee Table, Clothes Rack, Mirror, Armchairs
+              .m-2
+                i.fa-solid.fa-bell-concierge.fa-xl(style='color:#2055b1')
+                span.ms-1 Room Service
+        .col-lg-6.col-md-11.col-12
+          .about-img
+            img.img-fluid(src='img/Twin.jpg' alt='')
+      .text-center
+        button.btn.btn-primary.text-white Check Availability
+      hr
 
 // Footer
 footer
@@ -182,5 +225,8 @@ footer
       p.text-white
         | Copyright &copy; 2023 Aruga. All Rights Reserved.
 script(src='js/script.js')
+script(src='https://code.jquery.com/jquery-3.6.0.min.js')
 script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js')
 script(src='https://kit.fontawesome.com/72e773f6c0.js' crossorigin='anonymous')
+script(src='https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js')
+script(src='js/car2.js')

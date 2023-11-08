@@ -5,7 +5,7 @@ document.querySelectorAll('.nav-item').forEach((item) => {
   const link = item.querySelector('.nav-link');
   const href = link.getAttribute('href');
   if (href === currentPath || currentPath.startsWith(href)) {
-    item.classList.add('active');
+    item.classList.add('header_active');
   }
 });
 

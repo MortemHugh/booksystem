@@ -1,4 +1,19 @@
 .card-img-top {
-    width: 100%;
-    height: 300px;
+  width: 100%;
+  height: 300px;
+  object-position: center;
+
   }
+.card-img{
+  width: 100%;
+  height: 250px;
+  border-radius: 16px 16px 0px 0px;
+  object-position: center;
+}
+.card-car{
+  border-radius: 14px;
+}
+.img-fluid {
+  border: 10px solid white; /* This adds a white border around the image */
+  box-sizing: border-box; /* This ensures the border is included in the width and height of the element */
+}

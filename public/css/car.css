@@ -89,3 +89,38 @@
     transform: translateY(-800%);
     position: relative;
 }
+.carousel-control-prev span,
+.slick-next span {
+  color: black; /* Arrow color */
+  font-size: 20px; /* Adjust arrow size if necessary */
+  display: inline-block;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none; /* Remove default images */
+}
+
+.carousel-control-prev-icon:after,
+.carousel-control-next-icon:after {
+  font-family: 'Font Awesome 5 Free'; /* Use Font Awesome or similar */
+  font-weight: 900; /* Ensure it's bold if using Font Awesome */
+}
+
+.carousel-control-prev-icon:after {
+  content: '\f104'; /* Font Awesome left arrow */
+}
+
+.carousel-control-next-icon:after {
+  content: '\f105'; /* Font Awesome right arrow */
+}
+
+/* Additional styles to position the buttons correctly */
+.carousel-control-prev {
+  left: -20px; /* Adjust as needed for proper positioning */
+}
+
+.slick-next {
+  right: -20px; /* Adjust as needed for proper positioning */
+}
+

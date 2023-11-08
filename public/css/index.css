@@ -137,7 +137,8 @@ header .navigation li a:hover{
 
 .btn
 {
-    font-size: 1em; color: #fff; 
+    font-size: 12px; 
+    color: #fff; 
     margin-top: 20px;
     display: inline-block; 
     padding: 10px 30px;
@@ -145,6 +146,8 @@ header .navigation li a:hover{
     text-decoration: none;
     Letter-spacing: 2px; 
     transition: 0.5s;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 .btn:hover{
     letter-spacing: 6px;

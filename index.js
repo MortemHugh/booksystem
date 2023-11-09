@@ -47,7 +47,7 @@ app.use('/service', service)
 app.use('/promo', promo)
 
 
-app.get('/index', async(req, res)=>{
+app.get('/', async(req, res)=>{
     try {
         const allRoomType = await pool.query('SELECT * FROM room_type WHERE hotelid = $1', [hotelid])
 

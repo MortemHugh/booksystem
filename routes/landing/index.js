@@ -7,6 +7,15 @@ const pool = require(path.join(__basedir, 'config', 'db-config'))
 
 const hotelid = 'H0T1L3D7';
 
+router.get('/', async(req, res)=>{
+    try {
+        res.render('landing/index')
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+
+
 // read all room type
 /*router.get('/', async(req, res)=>{
     try {

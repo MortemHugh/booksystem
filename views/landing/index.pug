@@ -7,31 +7,14 @@ html(lang="en")
     link(href='https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.css' rel='stylesheet')
 
     link(rel='stylesheet' href='css/index.css')
-    link(rel='stylesheet', href='/css/modal.css')
+    link(rel='stylesheet', href='css/modal.css')
     link(rel='stylesheet' href='css/room.css')
     link(rel='stylesheet' href='css/car.css')
     link(rel='stylesheet' href='css/roomtype_card.css')
     title Index
 
   body
-    //- Navigation Header
-    header
-      a.logo(href='/')
-        | Aruga
-        span .
-      .menuTog(onclick='toggleMenu();')
-        ul.navigation
-          li
-            a.header_active(href='#home_page' onclick='toggleMenu();') Home
-          li
-            a(href='/about' onclick='toggleMenu();') About
-          li
-            a(href='/rooms' onclick='toggleMenu();') Rooms
-          li
-            a(href='/service' onclick='toggleMenu();') Services
-          li
-            a(href='/booking' onclick='toggleMenu();') Booking
-    
+    include ../partial/nav.pug  
     //- Home
     //- Carousel Hero
     section#home_page.home_page
@@ -142,14 +125,15 @@ html(lang="en")
                         
             .carousel-controls
               button.slick-prev 
-                span.carousel-control-prev-icon(aria-hidden='true')
+                span.slick-control-prev-icon(aria-hidden='true')
                 span.visually-hidden Previous
               button.slick-next
-                span.carousel-control-next-icon(aria-hidden='true')
+                span.slick-control-next-icon(aria-hidden='true')
                 span.visually-hidden Next      
 
 <br>
-    section.rooms.rm.room.section-padding
+  
+    //-section.rooms.rm.room.section-padding
       .content
         .row.mx-5
           .col-md-12
@@ -162,7 +146,7 @@ html(lang="en")
                 | Diverse range of meticulously designed rooms and suites, each tailored to meet your specific needs and preferences.
 
           each h in allRoomTypeArray
-              //- card
+              
               .col-12.col-md-12.col-lg-3.mt-4
                 .card.bg-white.line-height.shadow.h-100
                   .card-body.text-dark
@@ -274,7 +258,7 @@ html(lang="en")
               .col-6.se
                 .sr.card.pb-3
                   .card-body.text-dark
-                    //.gallery-controls
+                    .gallery-controls
     // Services
     section#services.services.section-padding
       .container
@@ -377,7 +361,8 @@ html(lang="en")
       script(src='https://kit.fontawesome.com/72e773f6c0.js' crossorigin='anonymous')
       script(src='https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js')
 
-      script(src='/js/modal.js') 
-      script(src='/js/car2.js') 
+      script(src='js/modal.js') 
+      script(src='js/car2.js')
+      script(src='js/nav-active.js')  
 
       

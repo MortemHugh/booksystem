@@ -33,6 +33,8 @@ const about = require('./routes/about')
 const booking = require('./routes/booking')
 const rooms = require('./routes/rooms')
 const service = require('./routes/service')
+const promo = require('./routes/promo')
+
 
 
 // register routes as middleware
@@ -42,9 +44,10 @@ app.use('/about', about)
 app.use('/booking', booking)
 app.use('/rooms', rooms)
 app.use('/service', service)
+app.use('/promo', promo)
 
 
-app.get('/', async(req, res)=>{
+app.get('/index', async(req, res)=>{
     try {
         const allRoomType = await pool.query('SELECT * FROM room_type WHERE hotelid = $1', [hotelid])
 

@@ -64,7 +64,7 @@ header .navigation li a:hover{
     color: #2c89d3;
 }
 
-.header_active{
+.header_active .nav-link{
     color: #2c89d3 !important;
     font-weight: 400 !important;
 }

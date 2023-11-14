@@ -56,6 +56,358 @@ section#service_page.service_page
       span.carousel-control-next-icon(aria-hidden='true')
       span.visually-hidden Next
 
+//- multistep form section
+section.mt-4
+    .container
+        //- form
+        form.card(method="POST" action="/booking/book")
+            //- card header
+            .card-header.text-dark
+                nav.nav.nav-pills.nav-fill
+                    a.nav-link.tab-pills(href='#') Stay Details
+                    a.nav-link.tab-pills(href='#') Guest Details
+                    a.nav-link.tab-pills(href='#') Payment
+            //- card body
+            .card-body
+                //- Stay Details tab
+                .tab.d-none
+                    //- room type
+                    .mb-3
+                        label.form-label.fw-bold(for='roomtype') Room Type
+                        select.form-select(id='roomtype', name='roomtype')
+                            each rt in roomType
+                                option(value=rt.typeid data-typeid=rt.typeid data-price=rt.price data-capacity=rt.capacity)= rt.roomtype
+                    //- room image
+                      .mb-1
+                          label.form-label.fw-bold(for='roomimage') Room Image
+                          img#roomImage.img-fluid.roomtype-img(src='images/sa/placeholder_hotel.jpg' alt='Room Type Image' style='object-position: center; width: 200px; height: 100px;')
+                    .row
+                        //- check-in date
+                        .mb-3.col-md-6
+                            <br>
+                            label.form-label.fw-bold(for='checkindate') Check-In Date
+                            input#checkindate.form-control(type='date' name='checkindate' onchange='updateCheckoutMinDate()' required)
+                        //- check-out date
+                        .mb-3.col-md-6
+                            <br>
+                            label.form-label.fw-bold(for='checkoutdate') Check-Out Date
+                            input#checkoutdate.form-control(type='date' name='checkoutdate' required)
+                    //- number of days
+                    .mb-3
+                        label.form-label.fw-bold(for='numofdays') Number of Days
+                        input#numofdays.form-control(type='number' name='numofdays' placeholder='' readonly)
+                    //- floor
+                    .mb-5
+                        <br>
+                        label.form-label.fw-bold(for='roomfloor') Select Your Preferred Floor for Comfort:
+                        select.form-select(id='roomfloor', name='roomfloor') Room Floor
+                    //- room number
+                    //-.mb-5
+                        <br>
+                        label.form-label.fw-bold(for='roomid') Room Number (Note: The first number of a room number corresponds to the room floor)
+                        select.form-select(id='roomid', name='roomid')
+                            each r in rooms
+                                option(value=r.roomid)= r.roomnum
+                    //- room number
+                    .mb-3
+                        label.form-label.fw-bold(for='roomid') Room Number
+                        select.form-select(id='roomid', name='roomid') Room Number
+                    .row
+                        //- number of adults
+                        .mb-3.col-md-6
+                            label.form-label.fw-bold(for='adultno') Number of Adults (Age: 13 and above)
+                            input#adultno.form-control(type='number' name='adultno' placeholder='' min='1' value=1)
+                        //- number of children
+                        .mb-5.col-md-6
+                            label.form-label.fw-bold(for='childno') Number of Children (Age: 12 and below)
+                            input#childno.form-control(type='number' name='childno' placeholder='' min='0' value=0)
+                                          
+                //- Guest Details tab
+                .tab.d-none
+                    //- last Name
+                    .mb-3
+                        label.form-label.fw-bold(for='fullname') Full Name
+                        input#fullname.form-control(type='text' name='fullname' placeholder="" required)
+                    //- address
+                    .mb-3
+                        label.form-label.fw-bold(for='address') Home Address
+                        input#address.form-control(type='text' name='address' placeholder="" required)
+                    //- email
+                    .mb-3
+                        label.form-label.fw-bold(for='email') Email
+                        input#email.form-control(type='email' name='email' placeholder="" required)
+                    //- contact no
+                    .mb-3
+                        label.form-label.fw-bold(for='contactno') Contact Number
+                        input#contactno.form-control(type='text' name='contactno' placeholder="" required)
+
+                //- Payment tab
+                .tab.d-none
+                    input(type='hidden' name='modeofpayment' value='Card')
+                    //- promo code
+                    .mb-3
+                        label.form-label.fw-bold(for='promocode') Promo Code (optional)
+                        input#promocode.form-control(type='text' name='promocode' placeholder='')
+                    .row
+                        input(type='hidden' name='description' value='Room Accommodation')
+                        //- price
+                        .col-md-4.mb-3
+                            label.form-label.fw-bold(for='price') Price
+                            input#price.form-control(type='number' name='price' placeholder='' value=roomType.price readonly)
+                        //- qty
+                        .col-md-4.mb-3
+                            label.form-label.fw-bold(for='qty') Number of Days
+                            input#qty.form-control(type='number' name='qty' placeholder='' readonly)
+                        //- amount
+                        .col-md-4.mb-3
+                            label.form-label.fw-bold(for='amount') Amount
+                            input#amount.form-control(type='number' name='amount' placeholder='' readonly)
+                    form(action="/booking/book" method='POST')
+                        script.stripe-button(id='stripe-button' src='//checkout.stripe.com/v2/checkout.js' data-key=key data-amount='' data-currency='php' data-name='' data-description='Room Reservation Payment' data-locale='auto')                 
+
+                script.
+                    const rooms = !{JSON.stringify(rooms)}
+
+                    const roomTypeSelect = document.querySelector('select[name="roomtype"]')
+                    const roomNumSelect = document.querySelector('select[name="roomid"]')
+                    const roomNumOptions = document.querySelectorAll('select[name="roomid"] option')
+
+                    const floorSelect = document.querySelector('select[name="roomfloor"]')
+                    const floorOptions = document.querySelectorAll('select[name="roomfloor"] option')
+
+
+                    const checkInDateInput = document.querySelector('#checkindate')
+                    const checkOutDateInput = document.querySelector('#checkoutdate')
+                    const numOfDaysInput = document.querySelector('#numofdays')
+                    const roomType = document.querySelector('#roomtype')
+                    const priceInput = document.querySelector('#price')
+                    const qtyInput = document.querySelector('#qty')
+                    const amountInput = document.querySelector('#amount')
+                    const name = document.querySelector('#fullname')
+
+                    const adultNoInput = document.getElementById('adultno');
+                    const childNoInput = document.getElementById('childno');
+
+                    function updateCapacity() {
+                        var selectedOption = roomTypeSelect.options[roomTypeSelect.selectedIndex];
+                        var capacity = selectedOption.getAttribute('data-capacity');
+
+                        // Update the maximum values for adultno and childno
+                        adultNoInput.max = capacity;
+                        childNoInput.max = capacity-1;
+                    }
+
+                    // Call the updateCapacity function
+                    document.addEventListener('DOMContentLoaded', updateCapacity);
+                    roomTypeSelect.addEventListener('change', updateCapacity);
+
+                    // set the minimum date for checkin and checkout date
+                    function updateCheckinMinDate() {
+                        // Calculate the minimum date for check-in (current date + 1 day)
+                        const today = new Date();
+                        today.setDate(today.getDate() + 1);
+                        const checkinDateInput = document.getElementById('checkindate');
+                        checkinDateInput.min = today.toISOString().split('T')[0];
+                    }
+                
+                      // Call the function when the page loads
+                    window.addEventListener('load', function() {
+                        updateCheckinMinDate();
+                    });
+
+                    // set the minimum date for checkin and checkout date
+                    function updateCheckoutMinDate() {
+                        // Calculate the minimum date for check-in (current date + 1 day)
+                        const today = new Date();
+                        today.setDate(today.getDate() + 1);
+                        const checkinDateInput = document.getElementById('checkindate');
+                        checkinDateInput.min = today.toISOString().split('T')[0];
+
+                        // Calculate the minimum date for check-out (check-in date + 1 day)
+                        const checkinDate = new Date(checkinDateInput.value);
+                        const checkoutDateInput = document.getElementById('checkoutdate');
+                        const checkoutMinDate = new Date(checkinDate.getTime() + 24 * 60 * 60 * 1000);
+                        checkoutDateInput.min = checkoutMinDate.toISOString().split('T')[0];
+                    }
+
+                    //- calculateNumDays
+                    function calculateNumDays() {
+                        const checkInDate = new Date(checkInDateInput.value)
+                        const checkOutDate = new Date(checkOutDateInput.value)
+                        const price = priceInput.value
+                        const difference = checkOutDate - checkInDate
+                        const numDays = Math.floor(difference / (1000 * 60 * 60 * 24))
+
+                        numOfDaysInput.value = numDays
+                        qtyInput.value = numDays
+
+                        amountInput.value = numDays * price
+                    }
+
+                    //- calculateNumDays is called
+                    checkInDateInput.addEventListener('change', calculateNumDays)
+                    checkOutDateInput.addEventListener('change', calculateNumDays)
+
+
+                    function getRangeOfDates(d1, d2) {
+                        const startDate = new Date(d1);
+                        const endDate = new Date(d2);
+                        const dates = []
+
+                        for (var d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+                            dates.push(new Date(d))
+                        }
+                        return dates
+                    }
+
+                    function updateRoomNumbers(){
+                        const selectedOption = roomTypeSelect.options[roomTypeSelect.selectedIndex]
+                        const selectedTypeId = selectedOption.getAttribute('data-typeid')
+                        const selectedTypePrice = selectedOption.getAttribute('data-price')
+                        
+                        //- price input in "Room Payment" tab is updated based on roomtype
+                        priceInput.value = selectedTypePrice
+
+                        //- room num options is cleared
+                        roomNumSelect.innerHTML = ''
+                        roomNumOptions.forEach((option)=>{
+                            option.value = ''
+                            option.innerHTML = ''
+                        })
+
+                        rooms.forEach((room) => {
+                            //- get range of checkin date to checkoutdate of the reservation
+                            //- i.e. when the room is occupied
+                            let dates = []
+                            let valid = true
+                            if(room.checkindate && room.checkoutdate){
+                                const reservedDates = getRangeOfDates(room.checkindate, room.checkoutdate);
+
+                                const selectedStartDate = new Date(checkInDateInput.value);
+                                const selectedEndDate = new Date(checkOutDateInput.value);
+
+                                // Check for date range overlap
+                                const isOverlap = reservedDates.some((reservedDate) => {
+                                    return (
+                                        selectedStartDate <= reservedDate &&
+                                        selectedEndDate >= reservedDate
+                                    );
+                                });
+
+                                if (isOverlap) {
+                                    valid = false;
+                                }
+                                
+                            }
+                            
+                            if (room.typeid == selectedTypeId && room.status !== 'Out-of-Order' && valid === true) {
+                                const newOption = document.createElement('option')
+                                newOption.value = room.roomid
+                                newOption.innerText = room.roomnum
+                                roomNumSelect.appendChild(newOption);
+                            }
+                        })
+                        updateFloorNumbers();
+                    }
+
+                    function updateFloorNumbers() {
+                        const selectedOption = roomTypeSelect.options[roomTypeSelect.selectedIndex]
+                        const selectedTypeId = selectedOption.getAttribute('data-typeid')
+
+                        // Get the filtered rooms
+                        const filteredRooms = rooms.filter(room => {
+                            let valid = true;
+                            if(room.checkindate && room.checkoutdate){
+                                const reservedDates = getRangeOfDates(room.checkindate, room.checkoutdate);
+
+                                const selectedStartDate = new Date(checkInDateInput.value);
+                                const selectedEndDate = new Date(checkOutDateInput.value);
+
+                                // Check for date range overlap
+                                const isOverlap = reservedDates.some((reservedDate) => {
+                                    return (
+                                        selectedStartDate <= reservedDate &&
+                                        selectedEndDate >= reservedDate
+                                    );
+                                });
+
+                                if (isOverlap) {
+                                    valid = false;
+                                }
+                            }
+                            
+                            return room.typeid == selectedTypeId && room.status !== 'Out-of-Order' && valid;
+                        });
+
+                        // Get the unique floors from the filtered rooms
+                        const uniqueFloors = [...new Set(filteredRooms.map(room => room.roomfloor))];
+
+                        // Clear the floor select
+                        floorSelect.innerHTML = '';
+
+                        // Add the unique floors to the floor select
+                        uniqueFloors.forEach(floor => {
+                            const option = document.createElement('option');
+                            option.value = floor;
+                            option.textContent = floor;
+                            floorSelect.appendChild(option);
+                        });
+                    }
+
+                    function updateAmount(){
+                        if(priceInput.value != null && qtyInput.value != null){
+                            subtotal = priceInput.value * qtyInput.value
+
+                            amountInput.value = subtotal
+                        }
+                    }
+
+                    //- checkin date, and checkout date is changed
+                    //- updateFloorNumbers is called
+                    document.addEventListener('DOMContentLoaded', updateFloorNumbers)
+                    roomTypeSelect.addEventListener('change', updateFloorNumbers)
+                    checkInDateInput.addEventListener('change', updateFloorNumbers)
+                    checkOutDateInput.addEventListener('change', updateFloorNumbers)
+
+                    //- roomtype, checkin date, and checkout date is changed
+                    //- updateRoomNumbers is called
+                    document.addEventListener('DOMContentLoaded', updateRoomNumbers)
+                    roomTypeSelect.addEventListener('change', updateRoomNumbers)
+                    checkInDateInput.addEventListener('change', updateRoomNumbers)
+                    checkOutDateInput.addEventListener('change', updateRoomNumbers)
+
+                    //- 
+                    document.addEventListener('DOMContentLoaded', updateAmount)
+                    checkInDateInput.addEventListener('change', updateAmount)
+                    checkOutDateInput.addEventListener('change', updateAmount)
+                    roomTypeSelect.addEventListener('change', updateAmount)
+
+                .card-footer.text-end
+                    .d-flex
+                        button#back_button.btn.btn-link(type='button' onclick='back()') Back
+                        button#next_button.btn.btn-primary.ms-auto(type='button' onclick='next()') Next
+
+.container
+    .card
+        .card-header
+        h4 Hotel Online Reservation Policies
+        .card-body
+        h6 Reservation Policy:
+        ul
+            li A valid email address and contact number are required for reservation confirmation.
+            li The person whose name appears on the reservation confirmation must be present on the day of arrival. The reservation is non-transferable.
+        h6 Cancellation and Refund Policy:
+        ul
+            li Once a reservation is confirmed, it is non-cancellable and non-refundable.
+        h6 Check-In Policy:
+        ul
+            li Check-in time is 2:00 p.m. on the day of arrival and the check-out time is 12:00 p.m. on the day of departure.
+            li Early check-in and late check-out requests are subject to room availability and may incur additional charges.
+            li Extension of your stay is subject to room availability.
+        h6 No-Show Policy:
+        ul
+            li In the event of a no-show, your reservation will be cancelled.
+
 // Footer
 .bg-primary.p-2.text-center
   .container
@@ -66,4 +418,5 @@ section#service_page.service_page
   script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js')
   script(src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js')
   script(src='https://kit.fontawesome.com/72e773f6c0.js' crossorigin='anonymous')
-  script(src='js/nav-active.js')  
+  script(src='js/nav-active.js')
+  script(src='/js/multistepform.js') 

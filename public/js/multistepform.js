@@ -127,18 +127,11 @@ async function next() {
       const adultNo = parseInt($("#adultno").val());
       const childNo = parseInt($("#childno").val());
       const capacity = parseInt($("#adultno").attr("max"));
-      // Additional check for room availability
-      const roomnum = $("#roomnum").val();
-      const checkindate = $("#checkindate").val();
-      const checkoutdate = $("#checkoutdate").val();
 
       if (isNaN(adultNo) || isNaN(childNo) || adultNo + childNo > capacity) {
         alert("The number of adults or/and children exceeds the maximum capacity of the room. Maximum capacity is " + capacity);
         return;
       }
-
-      // Perform asynchronous room availability check
-      const isRoomAvailable = await checkRoomAvailability(roomnum, checkindate, checkoutdate);
 
       /*if (!isRoomAvailable) {
         alert("The room is already reserved for the selected dates. Please choose a different room or change the dates.");
@@ -150,29 +143,6 @@ async function next() {
     $(tabs_pill[current]).removeClass("active");
     current++;
     loadFormData(current);
-  }
-}
-
-async function checkRoomAvailability(roomnum, checkindate, checkoutdate) {
-  try {
-    // Make an AJAX request to your server to check room availability
-    const response = await $.ajax({
-      type: 'POST',
-      url: '/checkRoomAvailability', // Replace with your actual API endpoint
-      data: { roomnum, checkindate, checkoutdate },
-    })
-
-    .done(function(response) { // Add this block
-      console.log('AJAX request succeeded:', response);
-    })
-    .fail(function(jqXHR, textStatus, errorThrown) {
-      console.error('AJAX request failed:', textStatus, errorThrown);
-    });
-
-    return response.isAvailable; // Assuming the response from the server contains an "isAvailable" property.
-  } catch (error) {
-    console.error('Error checking room availability:', error);
-    return false;
   }
 }
 

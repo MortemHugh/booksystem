@@ -62,26 +62,37 @@ html(lang="en")
                                         img.img-fluid.roomtype-img(src=`${h.roomimage}` alt='Room Type Image' style='object-position: center; width: 350px; height: 200px;')
                                     else 
                                         img.img-fluid.roomtype-img(src='images/sa/placeholder_hotel.jpg' alt='Room Type Image' style='object-position: center; width: 200px; height: 100px;')
-                                //- room number
-                                .mb-5
-                                    <br>
-                                    label.form-label.fw-bold(for='roomid') Room Number (Note: The first number of a room number corresponds to the room floor)
-                                    select.form-select(id='roomid', name='roomid')
-                                        each r in rooms
-                                            option(value=r.roomid)= r.roomnum
                                 .row
                                     //- check-in date
                                     .mb-3.col-md-6
+                                        <br>
                                         label.form-label.fw-bold(for='checkindate') Check-In Date
                                         input#checkindate.form-control(type='date' name='checkindate' onchange='updateCheckoutMinDate()' required)
                                     //- check-out date
                                     .mb-3.col-md-6
+                                        <br>
                                         label.form-label.fw-bold(for='checkoutdate') Check-Out Date
                                         input#checkoutdate.form-control(type='date' name='checkoutdate' required)
                                 //- number of days
                                 .mb-3
                                     label.form-label.fw-bold(for='numofdays') Number of Days
                                     input#numofdays.form-control(type='number' name='numofdays' placeholder='' readonly)
+                                //- floor
+                                .mb-5
+                                    <br>
+                                    label.form-label.fw-bold(for='roomfloor') Select Your Preferred Floor for Comfort:
+                                    select.form-select(id='roomfloor', name='roomfloor') Room Floor
+                                //- room number
+                                //-.mb-5
+                                    <br>
+                                    label.form-label.fw-bold(for='roomid') Room Number (Note: The first number of a room number corresponds to the room floor)
+                                    select.form-select(id='roomid', name='roomid')
+                                        each r in rooms
+                                            option(value=r.roomid)= r.roomnum
+                                //- room number
+                                //-.mb-3
+                                    label.form-label.fw-bold(for='roomid') Room Number
+                                    select.form-select(id='roomid', name='roomid') Room Number
                                 .row
                                     //- number of adults
                                     .mb-3.col-md-6
@@ -162,9 +173,19 @@ html(lang="en")
                                             input#cvc.form-control(type='number' name='cvc' placeholder='')                             
  
                             script.
+                                const rooms = !{JSON.stringify(rooms)}
+
+                                const roomNumSelect = document.querySelector('select[name="roomid"]')
+                                const roomNumOptions = document.querySelectorAll('select[name="roomid"] option')
+
+                                const floorSelect = document.querySelector('select[name="roomfloor"]')
+                                const floorOptions = document.querySelectorAll('select[name="roomfloor"] option')
+
+
                                 const checkInDateInput = document.querySelector('#checkindate')
                                 const checkOutDateInput = document.querySelector('#checkoutdate')
                                 const numOfDaysInput = document.querySelector('#numofdays')
+                                const roomType = document.querySelector('#roomtype')
                                 const priceInput = document.querySelector('#price')
                                 const qtyInput = document.querySelector('#qty')
                                 const amountInput = document.querySelector('#amount')
@@ -216,6 +237,151 @@ html(lang="en")
                                 //- calculateNumDays is called
                                 checkInDateInput.addEventListener('change', calculateNumDays)
                                 checkOutDateInput.addEventListener('change', calculateNumDays)
+
+
+                                function getRangeOfDates(d1, d2) {
+                                    const startDate = new Date(d1);
+                                    const endDate = new Date(d2);
+                                    const dates = []
+
+                                    for (var d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+                                        dates.push(new Date(d))
+                                    }
+                                    return dates
+                                }
+
+                                function updateRoomNumbers(){
+                                    //- room num options is cleared
+                                    roomNumSelect.innerHTML = ''
+                                    roomNumOptions.forEach((option)=>{
+                                        option.value = ''
+                                        option.innerHTML = ''
+                                    })
+
+                                    rooms.forEach((room) => {
+                                        //- get range of checkin date to checkoutdate of the reservation
+                                        //- i.e. when the room is occupied
+                                        let dates = []
+                                        let valid = true
+                                        if(room.checkindate && room.checkoutdate){
+                                            const reservedDates = getRangeOfDates(room.checkindate, room.checkoutdate);
+
+                                            const selectedStartDate = new Date(checkInDateInput.value);
+                                            const selectedEndDate = new Date(checkOutDateInput.value);
+
+                                            // Check for date range overlap
+                                            const isOverlap = reservedDates.some((reservedDate) => {
+                                                return (
+                                                    selectedStartDate <= reservedDate &&
+                                                    selectedEndDate >= reservedDate
+                                                );
+                                            });
+
+                                            if (isOverlap) {
+                                                valid = false;
+                                            }
+                                           
+                                        }
+                                        
+                                        if (room.status !== 'Out-of-Order' && valid === true) {
+                                            const newOption = document.createElement('option')
+                                            newOption.value = room.roomid
+                                            newOption.innerText = room.roomnum
+                                            roomNumSelect.appendChild(newOption);
+                                        }
+                                    })
+                                    updateFloorNumbers();
+                                }
+
+                                function updateFloorNumbers() {
+                                    // Get the filtered rooms
+                                    const filteredRooms = rooms.filter(room => {
+                                        let valid = true;
+                                        if(room.checkindate && room.checkoutdate){
+                                            const reservedDates = getRangeOfDates(room.checkindate, room.checkoutdate);
+
+                                            const selectedStartDate = new Date(checkInDateInput.value);
+                                            const selectedEndDate = new Date(checkOutDateInput.value);
+
+                                            // Check for date range overlap
+                                            const isOverlap = reservedDates.some((reservedDate) => {
+                                                return (
+                                                    selectedStartDate <= reservedDate &&
+                                                    selectedEndDate >= reservedDate
+                                                );
+                                            });
+
+                                            if (isOverlap) {
+                                                valid = false;
+                                            }
+                                        }
+                                        
+                                        return room.status !== 'Out-of-Order' && valid;
+                                    });
+
+                                    // Get the unique floors from the filtered rooms
+                                    const uniqueFloors = [...new Set(filteredRooms.map(room => room.roomfloor))];
+
+                                    // Clear the floor select
+                                    floorSelect.innerHTML = '';
+
+                                    // Add the unique floors to the floor select
+                                    uniqueFloors.forEach(floor => {
+                                        const option = document.createElement('option');
+                                        option.value = floor;
+                                        option.textContent = floor;
+                                        floorSelect.appendChild(option);
+                                    });
+                                }
+
+                                //- checkin date, and checkout date is changed
+                                //- updateRoomNumbers is called
+                                document.addEventListener('DOMContentLoaded', updateFloorNumbers)
+                                checkInDateInput.addEventListener('change', updateFloorNumbers)
+                                checkOutDateInput.addEventListener('change', updateFloorNumbers)
+
+                            //-document.addEventListener('DOMContentLoaded', function () {
+                                    // Assume you have elements with the IDs 'checkindate', 'checkoutdate', and 'floor'
+                                    const checkInDateInputt = document.getElementById('checkindate');
+                                    const checkOutDateInputt = document.getElementById('checkoutdate');
+                                    const floorSelect = document.getElementById('floor');
+
+                                    // Attach event listeners to check-in and check-out date inputs
+                                    checkInDateInputt.addEventListener('change', updateAvailableFloors);
+                                    checkOutDateInputt.addEventListener('change', updateAvailableFloors);
+
+                                    // Initial update when the page loads
+                                    updateAvailableFloors();
+
+                                    function updateAvailableFloors() {
+                                        const selectedCheckInDate = checkInDateInputt.value;
+                                        const selectedCheckOutDate = checkOutDateInputt.value;
+
+                                        // Fetch updated available floors based on selected dates
+                                        fetch(`/api/available-floors?checkindate=${selectedCheckInDate}&checkoutdate=${selectedCheckOutDate}`)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                // Update the floor options in the select element
+                                                updateFloorOptions(floorSelect, data.floors);
+                                            })
+                                            .catch(error => {
+                                                console.error('Error fetching available floors:', error);
+                                            });
+                                    }
+
+                                    function updateFloorOptions(selectElement, floorOptions) {
+                                        // Clear existing options
+                                        selectElement.innerHTML = '';
+
+                                        // Add new options
+                                        floorOptions.forEach(floor => {
+                                            const optionElement = document.createElement('option');
+                                            optionElement.value = floor;
+                                            optionElement.innerText = floor;
+                                            selectElement.appendChild(optionElement);
+                                        });
+                                    }
+                                });
                                 
                         .card-footer.text-end
                             .d-flex

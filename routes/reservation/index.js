@@ -16,11 +16,12 @@ const generateReservationID = require(path.join(__basedir, 'utils', 'generateRes
 
 const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
+const { OAuth2Client } = require('google-auth-library');
 
 //- OAuth Credentials for email confirmation
 const CLIENT_ID = "179230253575-l6kh9dr95m9rjgbqmjbi4j93brpju79t.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
-const REFRESH_TOKEN = "1//04BNho0_51egVCgYIARAAGAQSNwF-L9IrM2e-da-cJtjKjWrzt37R-wFhMfSvP7uZYM7c0WJ5Qi8eB9FiMlgTjha7d9b8-JkWbLE";
+const REFRESH_TOKEN = "1//04hHlgHlPLqEJCgYIARAAGAQSNwF-L9IrbdwV5r8yPEo6n4aPZBdei8ch3LQ4rI9rjh8bhIzGMDHqCNXy2903JKnup1Zwkji0dRc";
 const REDIRECT_URI = "https://developers.google.com/oauthplayground"; //DONT EDIT THIS
 const MY_EMAIL = "acisfds@gmail.com";
 
@@ -32,37 +33,81 @@ const oAuth2Client = new google.auth.OAuth2(
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
+// Function to get the access token
+async function getAccessToken() {
+    try {
+      // Check if the access token is about to expire
+      if (oAuth2Client.isTokenExpiring()) {
+        // Refresh the access token
+        const tokens = await oAuth2Client.refreshAccessToken();
+  
+        // Use the new access token
+        const newAccessToken = tokens.credentials.access_token;
+        console.log('New Access Token:', newAccessToken);
+  
+        // Optionally, update your application's state with the new access token
+      } else {
+        // Use the existing access token
+        const accessToken = oAuth2Client.credentials.access_token;
+        console.log('Access Token:', accessToken);
+      }
+  
+      // Use the access token to make API requests
+      // ...
+  
+    } catch (error) {
+      console.error('Error refreshing access token:', error.message);
+      // Handle the error, possibly by asking the user to reauthenticate
+    }
+  }
+  
+  // Periodically check and refresh the access token (e.g., every hour)
+  setInterval(getAccessToken, 60 * 60 * 1000); 
 
 //- render reservation form/page
-router.get('/', async(req, res)=>{
-
-    //- select rooms based on room type
+router.get('/', async (req, res) => {
     const typeId = req.query.typeid;
-        const roomTypeResult = await pool.query('SELECT * FROM room_type WHERE hotelid = $1 and typeid = $2', [hotelid, typeId]);
-        if (roomTypeResult.rows.length === 0) {
-            // Handle the case where no matching room type is found
-            res.status(404).send('Room type not found');
-            return;
-        }
-        const roomType = roomTypeResult.rows[0];
+    const checkinDate = req.query.checkindate;
+    const checkoutDate = req.query.checkoutdate;
 
-        roomTypeResult.rows.forEach(row => {
-            if (row.roomimage) {
-                row.roomimage = 'data:' + row.imagetype + ';base64,' + row.roomimage.toString('base64');
-            }
-        });
-       const rooms = await pool.query(
-           'SELECT * FROM rooms r JOIN room_type rt ON r.typeid = rt.typeid WHERE r.typeid = $1 AND r.hotelid = $2 AND r.status NOT IN ($3, $4)',
-           [typeId, hotelid, 'On-Change', 'Out-of-Order']
-       ); 
-       //console.log(`typeid: ${typeId}, hotelid: ${hotelid}`);
-       //console.log(roomType);
-    
+    // Select rooms based on room type
+    const roomTypeResult = await pool.query('SELECT * FROM room_type WHERE hotelid = $1 and typeid = $2', [hotelid, typeId]);
+
+    if (roomTypeResult.rows.length === 0) {
+        res.status(404).send('Room type not found');
+        return;
+    }
+
+    const roomType = roomTypeResult.rows[0]; 
+
+    roomTypeResult.rows.forEach(row => {
+        if (row.roomimage) {
+            row.roomimage = 'data:' + row.imagetype + ';base64,' + row.roomimage.toString('base64');
+        }
+    })
+
+    // Select rooms and reservations based on room type, hotel, and status
+    const roomsResult = await pool.query(
+        'SELECT * FROM rooms r LEFT JOIN reservations rs ON r.roomid = rs.roomid JOIN room_type rt ON r.typeid = rt.typeid WHERE r.typeid = $1 AND r.hotelid = $2 AND r.status != $3 ORDER BY r.roomnum ASC',
+        [typeId, hotelid, 'Out-of-Order']
+    )
+
+    const rooms = roomsResult.rows; 
+
+    // Select rooms and reservations based on room type, hotel, and status
+    const floorResult = await pool.query(
+        'SELECT DISTINCT roomfloor FROM rooms WHERE typeid = $1 AND hotelid = $2 AND status != $3 ORDER BY roomfloor ASC',
+        [typeId, hotelid, 'Out-of-Order']
+    )
+
+    const floors = floorResult.rows;
+
     res.render('reservation/reservation', {
         image: roomTypeResult.rows,
         roomType: roomType,
         key: publishable_key,
-        rooms: rooms.rows 
+        rooms: rooms,
+        floor: floors
     })
 })
 
@@ -70,38 +115,20 @@ router.get('/', async(req, res)=>{
 router.post('/reserve', async (req, res) => {
     const {
       checkindate, checkoutdate, numofdays, adultno, childno,
-      roomtype, roomid, promocode,
+      roomtype, roomfloor, promocode,
       fullname, address, email, contactno,
       approvalcode, description, price, qty, amount
     } = req.body;
-  
+
     const date = getCurrentDate();
     let reservationid = generateReservationID();
   
     const client = await pool.connect();   
+
+    let charge; 
   
     try {
         await client.query('BEGIN');
-
-        // Check if the selected room is already reserved for the requested date range
-        /*const existingReservation = await client.query(
-            'SELECT * FROM reservations ' +
-            'WHERE roomid = $1 ' +
-            'AND ($2 >= checkindate AND $2 <= checkoutdate ' +
-            'OR $3 >= checkindate AND $3 <= checkoutdate ' +
-            'OR checkindate >= $2 AND checkindate <= $3 ' +
-            'OR checkoutdate >= $2 AND checkoutdate <= $3)',
-            [roomid, checkindate, checkoutdate]
-        );
-    
-        if (existingReservation.rows.length > 0) {
-            // Room is already reserved for the requested date range
-            res.status(400).send("Room is already reserved for the selected dates. Please select other dates");
-            return;
-        }
-        else{
-
-        }*/
 
         const allRoomType = await pool.query('SELECT * FROM room_type WHERE hotelid = $1', [hotelid])
 
@@ -121,7 +148,7 @@ router.post('/reserve', async (req, res) => {
         // Convert amount to an integer and add two decimal places
         const amountInCents = (parseFloat(amount) * 100).toFixed(0);
     
-        await stripe.charges.create({
+        charge = await stripe.charges.create({
             amount: amountInCents,
             description: 'Room Reservation Payment',
             currency: 'PHP',
@@ -137,6 +164,32 @@ router.post('/reserve', async (req, res) => {
             res.status(404).send('Room type not found');
             return;
         }
+
+        const assignedRoomResult = await pool.query(
+            `SELECT r.roomid FROM rooms r 
+            LEFT JOIN reservations rs ON r.roomid = rs.roomid 
+            WHERE r.typeid = $1
+            AND r.hotelid =  $2
+            AND r.status != $3
+            AND r.roomfloor = $6
+               AND NOT EXISTS (
+                SELECT 1
+                FROM reservations
+                WHERE r.roomid = reservations.roomid
+                    AND (
+                        (checkindate <= $4 AND checkoutdate >= $4)  -- Check-in date overlaps
+                        OR
+                        (checkindate <= $5 AND checkoutdate >= $5)  -- Checkout date overlaps
+                        OR
+                        (checkindate >= $4 AND checkoutdate <= $5)  -- New reservation is within an existing one
+                    )
+            )
+            ORDER BY RANDOM()
+            LIMIT 1`,
+            [typeid, hotelid, 'Out-of-Order', checkindate, checkoutdate, roomfloor]
+        )
+        
+        const roomid = assignedRoomResult.rows[0].roomid;
 
         //- Get the roomnum of roomid
         const roomnumresult = await client.query('SELECT roomnum FROM rooms WHERE roomid = $1', [roomid]);
@@ -171,8 +224,8 @@ router.post('/reserve', async (req, res) => {
         await client.query(q3, [hotelid, roomid]);
 
 
-        //- Generate an access token
-        const ACCESS_TOKEN = await oAuth2Client.getAccessToken();
+        // Get the current access token
+        const accessToken = oAuth2Client.credentials.access_token;
 
         const transporter = nodemailer.createTransport({
             service: "gmail",
@@ -182,7 +235,7 @@ router.post('/reserve', async (req, res) => {
             clientId: CLIENT_ID,
             clientSecret: CLIENT_SECRET,
             refreshToken: REFRESH_TOKEN,
-            accessToken: ACCESS_TOKEN,
+            accessToken,
             },
             tls: {
             rejectUnauthorized: true,
@@ -715,6 +768,11 @@ router.post('/reserve', async (req, res) => {
             if (error) {
                 console.error('Email could not be sent: ' + error);
                 client.query('ROLLBACK');
+
+                stripe.refunds.create({
+                    charge: charge.id
+                });
+
                 res.status(500).send('Email could not be sent');
             } else {
                 client.query('COMMIT');
@@ -725,51 +783,15 @@ router.post('/reserve', async (req, res) => {
         } catch (error) {
             console.error('Error in transaction:', error);
             client.query('ROLLBACK');
+
+            stripe.refunds.create({
+                charge: charge.id
+            });
+            
             res.status(500).send('Error in reservation process');
         } finally {
             client.release();
         }
     });
-
-
-router.post('/checkRoomAvailability', async (req, res) => {
-    try {
-        const { roomnum, checkindate, checkoutdate } = req.body;
-
-        console.log(`Received request with roomnum: ${roomnum}, checkindate: ${checkindate}, checkoutdate: ${checkoutdate}`); // Add this line
-    
-        // Get the roomid of roomnum
-        const roomidresult = await pool.query('SELECT roomid FROM rooms WHERE roomnum = $1', [roomnum]);
-        const roomid = roomidresult.rows[0].roomid;
-    
-        // Query the database to check room availability
-        const query = `
-            SELECT *
-            FROM reservations
-            WHERE roomid = $1
-            AND (
-            (checkindate <= $2 AND checkoutdate >= $2)  -- Check-in date overlaps
-            OR
-            (checkindate <= $3 AND checkoutdate >= $3)  -- Checkout date overlaps
-            OR
-            (checkindate >= $2 AND checkoutdate <= $3)  -- New reservation is within an existing one
-            );
-        `;
-    
-        const result = await pool.query(query, [roomid, checkindate, checkoutdate]);
-
-        console.log(`Query result: ${result.rows}`); // Add this line
-    
-        // If any rows are returned, the room is not available
-        if (result.rows.length > 0) {
-            res.json({ isAvailable: false });
-        } else {
-            res.json({ isAvailable: true });
-        }
-    } catch (error) {
-        console.error('Error checking room availability:', error);
-        res.status(500).json({ error: 'An error occurred while checking room availability.' });
-    }
-});
 
 module.exports = router

@@ -55,7 +55,37 @@ section#service_page.service_page
     button.carousel-control-next(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide='next')
       span.carousel-control-next-icon(aria-hidden='true')
       span.visually-hidden Next
-// Footer
+
+each x in promosArray
+  .container.bg-white.shadow.mt-4.p-0.row
+    .row.col-3.p-0(style="max-width: 300px")
+      if x.poster
+        img(src=`${x.poster}` alt='Poster')
+
+    .row.col-9.px-5
+      .d-flex.flex-column.justify-content-center
+        if x.code
+          p.text-black-50.fw-bold #{x.code}
+        if x.name      
+          p.fw-bold #{x.name}
+        if x.description      
+          p #{x.description}
+        
+      hr
+      .d-flex.justify-content-between
+        if x.discount      
+          p.fw-bold Discount: <br>
+            span.fw-normal #{x.discount}
+        if x.startdate      
+          p.fw-bold Start Date: <br>
+            span.fw-normal #{x.startdate}
+        if x.enddate      
+          p.fw-bold End Date: <br>
+            span.fw-normal #{x.enddate}   
+        p.fw-bold Available On: <br>
+          p#availableon      
+
+//- Footer
 .bg-primary.p-2.text-center
   .container
     p.text-white

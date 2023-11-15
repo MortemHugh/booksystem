@@ -7,6 +7,7 @@ global.__basedir = __dirname
 const pool = require(path.join(__basedir, 'config', 'db-config'))
 
 const hotelid = 'H0T1L3D7';
+global.__hotelID = 'H0T1L3D7'
 
 //const methodOverride = require('method-override')
 //const session = require('express-session')
@@ -33,7 +34,7 @@ const about = require('./routes/about')
 const booking = require('./routes/booking')
 const rooms = require('./routes/rooms')
 const service = require('./routes/service')
-const promo = require('./routes/promo')
+const promo = require('./routes/promos')
 
 
 
@@ -44,7 +45,7 @@ app.use('/about', about)
 app.use('/booking', booking)
 app.use('/rooms', rooms)
 app.use('/service', service)
-app.use('/promo', promo)
+app.use('/promos', promo)
 
 
 app.get('/', async(req, res)=>{

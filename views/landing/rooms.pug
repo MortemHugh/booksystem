@@ -18,7 +18,7 @@ section#room_page.room_page
       button.active(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='0' aria-current='true' aria-label='Slide 1')
       button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='1' aria-label='Slide 2')
       button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='2' aria-label='Slide 3')
-    .carousel-inner.c_inner
+    .carousel-inner.c_inner.c_inner-head
       .carousel-item.active
         img.d-block.w-100(src='img/Standarad.jpg' alt='...')
         .carousel-caption.car-notmain
@@ -94,8 +94,8 @@ section.section-padding
                     | Capacity: 
                     span #{h.capacity}
                   p.card-text 
-                    |Size: 
-                    span 20m&sup2;    
+                    |Per Hour: 
+                    span ₱#{h.rate_perhour}   
               .m-2
                 i.fa-solid.fa-tv.fa-xl(style='color:#2055b1')
                 span.ms-1 43&quot; Flat-Screen Television

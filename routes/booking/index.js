@@ -79,6 +79,7 @@ router.get('/', async(req, res)=>{
         const roomTypeResult = await pool.query('SELECT * FROM room_type WHERE hotelid = $1', [hotelid]);
 
         const roomtypes = roomTypeResult.rows[0]; 
+        
 
         // Select rooms and reservations based on room type, hotel, and status
         const roomsResult = await pool.query(

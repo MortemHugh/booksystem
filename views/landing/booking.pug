@@ -18,7 +18,7 @@ section#service_page.service_page
       button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='2' aria-label='Slide 3')
       button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='3' aria-label='Slide 4')
       button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='4' aria-label='Slide 5')
-    .carousel-inner.c_inner
+    .carousel-inner.c_inner.c_inner-head
       .carousel-item.active
         img.d-block.w-100(src='img/Standarad.jpg' alt='...')
         .carousel-caption
@@ -55,6 +55,28 @@ section#service_page.service_page
     button.carousel-control-next(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide='next')
       span.carousel-control-next-icon(aria-hidden='true')
       span.visually-hidden Next
+
+// Policy
+.container
+    .card
+        .card-header
+        h4 Hotel Online Reservation Policies
+        .card-body
+        h6 Reservation Policy:
+        ul
+            li A valid email address and contact number are required for reservation confirmation.
+            li The person whose name appears on the reservation confirmation must be present on the day of arrival. The reservation is non-transferable.
+        h6 Cancellation and Refund Policy:
+        ul
+            li Once a reservation is confirmed, it is non-cancellable and non-refundable.
+        h6 Check-In Policy:
+        ul
+            li Check-in time is 2:00 p.m. on the day of arrival and the check-out time is 12:00 p.m. on the day of departure.
+            li Early check-in and late check-out requests are subject to room availability and may incur additional charges.
+            li Extension of your stay is subject to room availability.
+        h6 No-Show Policy:
+        ul
+            li In the event of a no-show, your reservation will be cancelled.
 
 //- multistep form section
 section.mt-4
@@ -387,26 +409,7 @@ section.mt-4
                         button#back_button.btn.btn-link(type='button' onclick='back()') Back
                         button#next_button.btn.btn-primary.ms-auto(type='button' onclick='next()') Next
 
-.container
-    .card
-        .card-header
-        h4 Hotel Online Reservation Policies
-        .card-body
-        h6 Reservation Policy:
-        ul
-            li A valid email address and contact number are required for reservation confirmation.
-            li The person whose name appears on the reservation confirmation must be present on the day of arrival. The reservation is non-transferable.
-        h6 Cancellation and Refund Policy:
-        ul
-            li Once a reservation is confirmed, it is non-cancellable and non-refundable.
-        h6 Check-In Policy:
-        ul
-            li Check-in time is 2:00 p.m. on the day of arrival and the check-out time is 12:00 p.m. on the day of departure.
-            li Early check-in and late check-out requests are subject to room availability and may incur additional charges.
-            li Extension of your stay is subject to room availability.
-        h6 No-Show Policy:
-        ul
-            li In the event of a no-show, your reservation will be cancelled.
+
 
 // Footer
 .bg-primary.p-2.text-center

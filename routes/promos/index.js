@@ -16,10 +16,13 @@ const hotelID = __hotelID
 router.get('/', async(req, res)=>{
     try {
         const q1 = `
-            SELECT * FROM promos
-            WHERE hotelid = $1
+            SELECT * FROM promos t1
+            JOIN room_type t2
+                ON t1.typeid = t2.typeid
+            WHERE t1.hotelid = $1 AND
+                status = $2
         `
-        const q1result = await pool.query(q1, [hotelID])
+        const q1result = await pool.query(q1, [hotelID, 'Active'])
 
         q1result.rows.forEach(row => {
             if (row.poster) {

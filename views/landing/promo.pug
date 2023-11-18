@@ -73,20 +73,51 @@ section#service_page.service_page
                 if x.name      
                   p.fw-bold #{x.name}
                 if x.description      
-                  p #{x.description}           
+                  p #{x.description}  
+              .col-5.d-flex.flex-column.justify-content-start
+                p.fw-bold Available On: <br>
+                  .row 
+                    .col-6
+                      input.form-check-input.me-2#isavailable_mon(type='checkbox' name='isavailable_mon' checked=x.isavailable_mon disabled)
+                      label.form-label.d-inline(for='isavailable_mon') Monday 
+                      br
+
+                      input.form-check-input.me-2#isavailable_tues(type='checkbox' name='isavailable_tues' checked=x.isavailable_tues disabled)
+                      label.form-label.d-inline(for='isavailable_tues') Tuesday 
+                      br
+
+                      input.form-check-input.me-2#isavailable_wed(type='checkbox' name='isavailable_wed' checked=x.isavailable_wed disabled)
+                      label.form-label.d-inline(for='isavailable_wed') Wednesday 
+                      br
+
+                      input.form-check-input.me-2#isavailable_thurs(type='checkbox' name='isavailable_thurs' checked=x.isavailable_thurs disabled)
+                      label.form-label.d-inline(for='isavailable_thurs') Thursday 
+                      br
+                    .col-6
+                      input.form-check-input.me-2#isavailable_fri(type='checkbox' name='isavailable_fri' checked=x.isavailable_fri disabled)
+                      label.form-label.d-inline(for='isavailable_fri') Friday
+                      br
+
+                      input.form-check-input.me-2#isavailable_sat(type='checkbox' name='isavailable_sat' checked=x.isavailable_sat disabled)
+                      label.form-label.d-inline(for='isavailable_sat') Saturday
+                      br
+
+                      input.form-check-input.me-2#isavailable_sun(type='checkbox' name='isavailable_sun' checked=x.isavailable_sun disabled)
+                      label.form-label.d-inline(for='isavailable_sun') Sunday         
             hr
             .d-flex.justify-content-between
               if x.discount      
                 p.fw-bold Discount: <br>
                   span.fw-normal #{x.discount}
+              if x.roomtype      
+                p.fw-bold Room Type: <br>
+                  span.fw-normal #{x.roomtype}
               if x.startdate      
                 p.fw-bold Start Date: <br>
                   span.fw-normal #{x.startdate}
               if x.enddate      
                 p.fw-bold End Date: <br>
-                  span.fw-normal #{x.enddate}   
-              p.fw-bold Available On: <br>
-                p#availableon      
+                  span.fw-normal #{x.enddate} 
 
 //- Footer
 .bg-primary.p-2.text-center.mt-3

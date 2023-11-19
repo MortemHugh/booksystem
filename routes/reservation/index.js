@@ -21,7 +21,7 @@ const { OAuth2Client } = require('google-auth-library');
 //- OAuth Credentials for email confirmation
 const CLIENT_ID = "179230253575-l6kh9dr95m9rjgbqmjbi4j93brpju79t.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
-const REFRESH_TOKEN = "1//04hHlgHlPLqEJCgYIARAAGAQSNwF-L9IrbdwV5r8yPEo6n4aPZBdei8ch3LQ4rI9rjh8bhIzGMDHqCNXy2903JKnup1Zwkji0dRc";
+const REFRESH_TOKEN = "1//04Txv0S0Vc4YwCgYIARAAGAQSNwF-L9IrPIAhXVscMSOhBkzYALvLjZTq3Bs_jpFkjpTnZwhA87qLIpL5m3zhHyW5RJ3PF6ecRVU";
 const REDIRECT_URI = "https://developers.google.com/oauthplayground"; //DONT EDIT THIS
 const MY_EMAIL = "acisfds@gmail.com";
 
@@ -32,6 +32,8 @@ const oAuth2Client = new google.auth.OAuth2(
     REDIRECT_URI
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+let globalAccessToken; // Store the access token globally
 
 // Function to get the access token
 async function getAccessToken() {
@@ -46,9 +48,10 @@ async function getAccessToken() {
         console.log('New Access Token:', newAccessToken);
   
         // Optionally, update your application's state with the new access token
+        globalAccessToken = newAccessToken;
       } else {
         // Use the existing access token
-        const accessToken = oAuth2Client.credentials.access_token;
+        const accessToken = oAuth2Client.credentials.access_token || globalAccessToken;
         console.log('Access Token:', accessToken);
       }
   
@@ -225,7 +228,10 @@ router.post('/reserve', async (req, res) => {
 
 
         // Get the current access token
-        const accessToken = oAuth2Client.credentials.access_token;
+        //const accessToken = oAuth2Client.credentials.access_token;
+
+        // Get the current access token
+        const accessToken = globalAccessToken;
 
         const transporter = nodemailer.createTransport({
             service: "gmail",

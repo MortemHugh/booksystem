@@ -105,12 +105,23 @@ router.get('/', async (req, res) => {
 
     const floors = floorResult.rows;
 
+    //- select promos of the hotel
+    const getPromosQuery = `
+        SELECT * FROM promos
+        WHERE hotelid = $1
+    `
+    const promos = await pool.query(getPromosQuery, [hotelid])
+
+    const typeid = typeId;
+
     res.render('reservation/reservation', {
         image: roomTypeResult.rows,
         roomType: roomType,
         key: publishable_key,
         rooms: rooms,
-        floor: floors
+        promos: promos.rows,
+        floor: floors,
+        roomtypeid: typeid
     })
 })
 
@@ -118,7 +129,7 @@ router.get('/', async (req, res) => {
 router.post('/reserve', async (req, res) => {
     const {
       checkindate, checkoutdate, numofdays, adultno, childno,
-      roomtype, roomfloor, promocode,
+      roomtype, roomfloor, promoid,
       fullname, address, email, contactno,
       approvalcode, description, price, qty, amount
     } = req.body;
@@ -168,6 +179,10 @@ router.post('/reserve', async (req, res) => {
             return;
         }
 
+        //- Get the promocode of promoid
+        const promocoderes = await client.query('SELECT code FROM promos WHERE id = $1', [promoid]);
+        const promocode = promocoderes.rows[0].code;
+
         const assignedRoomResult = await pool.query(
             `SELECT r.roomid FROM rooms r 
             LEFT JOIN reservations rs ON r.roomid = rs.roomid 
@@ -212,6 +227,24 @@ router.post('/reserve', async (req, res) => {
     
         const q1result = await client.query(q1, [reservationid, hotelid, typeid, roomid, adultno, childno, date, checkindate, checkoutdate, numofdays, promocode]);
         const reservationID = q1result.rows[0].reservationid;
+        
+        if(promoid != 0){
+            const result = await pool.query(`
+                SELECT * FROM promos
+                WHERE id = $1 AND
+                    hotelid = $2
+            `, [promoid, hotelid])
+            
+            let timesavailed = result.rows[0].timesavailed
+            timesavailed += 1
+
+            await pool.query(`
+                UPDATE promos
+                SET timesavailed = $1
+                WHERE id = $2 AND
+                    hotelid = $3
+            `, [timesavailed, promoid, hotelid])
+        }
     
         const q2 = `
             INSERT INTO reservation_guestdetails(reservationid, hotelid, fullname, email, contactno, address)

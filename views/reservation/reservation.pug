@@ -101,7 +101,7 @@ html(lang="en")
                             //- floor
                             .mb-5
                                 <br>
-                                label.form-label.fw-bold(for='roomfloor') Select Your Preferred Floor for Comfort:
+                                label.form-label.fw-bold(for='roomfloor') Select Your Preferred Floor:
                                 select.form-select(id='roomfloor', name='roomfloor') Room Floor
                             //- room number
                             //-.mb-5
@@ -148,8 +148,12 @@ html(lang="en")
                             input(type='hidden' name='modeofpayment' value='Card')
                             //- promo code
                             .mb-3
-                                label.form-label.fw-bold(for='promocode') Promo Code (optional)
-                                input#promocode.form-control(type='text' name='promocode' placeholder='')
+                                label.form-label.fw-bold(for='promoid') Promo Code (optional)
+                                select.form-select(id='promoid', name='promoid') Promo Code
+                            //- discount
+                            .mb-5j
+                                label.form-label.fw-bold(for='discount') Discount (%)
+                                input#discount.form-control(type='number' name='discount' placeholder='' readonly)
                             .row
                                 input(type='hidden' name='description' value='Room Accommodation')
                                 //- price
@@ -195,13 +199,13 @@ html(lang="en")
 
                         script.
                             const rooms = !{JSON.stringify(rooms)}
+                            const promos = !{JSON.stringify(promos)}
 
                             const roomNumSelect = document.querySelector('select[name="roomid"]')
                             const roomNumOptions = document.querySelectorAll('select[name="roomid"] option')
 
                             const floorSelect = document.querySelector('select[name="roomfloor"]')
                             const floorOptions = document.querySelectorAll('select[name="roomfloor"] option')
-
 
                             const checkInDateInput = document.querySelector('#checkindate')
                             const checkOutDateInput = document.querySelector('#checkoutdate')
@@ -211,6 +215,10 @@ html(lang="en")
                             const qtyInput = document.querySelector('#qty')
                             const amountInput = document.querySelector('#amount')
                             const name = document.querySelector('#fullname')
+
+                            const promoSelect = document.querySelector('select[name="promoid"]')
+                            const promoOptions = document.querySelectorAll('select[name="promoid"] option')
+                            const discountInput = document.querySelector('input[name="discount"]')
 
                             // set the minimum date for checkin and checkout date
                             function updateCheckinMinDate() {
@@ -355,12 +363,79 @@ html(lang="en")
                                 });
                             }
 
+
+                            function calculatePercentageOfAmount(amount, percent) {
+                                return (percent / 100) * amount;
+                            }
+
+                            function updateAmount(){
+                                if(priceInput.value != null && qtyInput.value != null){
+                                    const selectedOption = promoSelect.options[promoSelect.selectedIndex]
+                                    const selectedDiscount = selectedOption.getAttribute('data-discount')
+
+                                    const subtotal = priceInput.value * qtyInput.value
+                                    const discount = calculatePercentageOfAmount(subtotal, selectedDiscount)
+
+                                    amountInput.value = (subtotal - discount)
+                                }
+                            }
+
+                            function filterPromos(){
+                                //- promo options is cleared
+                                promoSelect.innerHTML = ''
+
+                                promoOptions.forEach((option)=>{
+                                    option.value = ''
+                                    option.innerHTML = ''
+                                })
+
+                                const newOption = document.createElement('option')
+                                newOption.value = 0
+                                newOption.innerText = 'None'
+                                newOption.setAttribute('data-discount', 0)
+                                promoSelect.appendChild(newOption)
+
+                                promos.forEach(promo => {
+                                    if(promo.typeid == #{roomtypeid} && promo.status === 'Active'){
+                                        const newOption = document.createElement('option')
+                                        newOption.value = promo.id
+                                        newOption.innerText = promo.code
+                                        newOption.setAttribute('data-discount', promo.discount)
+                                        promoSelect.appendChild(newOption)
+                                    }
+                                })
+                            }
+
+                            function updateDiscount(){
+                                const selectedOption = promoSelect.options[promoSelect.selectedIndex]
+                                const selectedDiscount = selectedOption.getAttribute('data-discount')
+
+                                discountInput.value = selectedDiscount
+                            }
+
                             //- checkin date, and checkout date is changed
                             //- updateRoomNumbers is called
                             document.addEventListener('DOMContentLoaded', updateFloorNumbers)
                             checkInDateInput.addEventListener('change', updateFloorNumbers)
                             checkOutDateInput.addEventListener('change', updateFloorNumbers)
-                            
+
+                            //- 
+                            window.addEventListener('load', updateAmount)
+                            document.addEventListener('DOMContentLoaded', updateAmount)
+                            checkInDateInput.addEventListener('change', updateAmount)
+                            checkOutDateInput.addEventListener('change', updateAmount)
+                            promoSelect.addEventListener('change', updateAmount)
+                            discountInput.addEventListener('change', updateAmount)
+
+                            //- filter promo
+                            window.addEventListener('load', filterPromos)
+                            document.addEventListener('DOMContentLoaded', filterPromos)
+
+                            //- update discount
+                            window.addEventListener('load', updateDiscount)
+                            document.addEventListener('DOMContentLoaded', updateDiscount)
+                            promoSelect.addEventListener('change', updateDiscount)
+     
                     .card-footer.text-end
                         .d-flex
                             button#back_button.btn.btn-link(type='button' onclick='back()') Back

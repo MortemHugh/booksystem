@@ -21,7 +21,7 @@ const { OAuth2Client } = require('google-auth-library');
 //- OAuth Credentials for email confirmation
 const CLIENT_ID = "179230253575-l6kh9dr95m9rjgbqmjbi4j93brpju79t.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
-const REFRESH_TOKEN = "1//04hHlgHlPLqEJCgYIARAAGAQSNwF-L9IrbdwV5r8yPEo6n4aPZBdei8ch3LQ4rI9rjh8bhIzGMDHqCNXy2903JKnup1Zwkji0dRc";
+const REFRESH_TOKEN = "1//04Txv0S0Vc4YwCgYIARAAGAQSNwF-L9IrPIAhXVscMSOhBkzYALvLjZTq3Bs_jpFkjpTnZwhA87qLIpL5m3zhHyW5RJ3PF6ecRVU";
 const REDIRECT_URI = "https://developers.google.com/oauthplayground"; //DONT EDIT THIS
 const MY_EMAIL = "acisfds@gmail.com";
 
@@ -97,10 +97,26 @@ router.get('/', async(req, res)=>{
 
         const floors = floorResult.rows;
 
+        //- select promos of the hotel
+        const getPromosQuery = `
+            SELECT * FROM promos
+            WHERE hotelid = $1
+        `
+        const promos = await pool.query(getPromosQuery, [hotelid])
+
+        /*if (promos.rows.length > 0) {
+            // If there are promos, print them in the console
+            console.log("Promos:", promos.rows);
+        } else {
+            // If there are no promos, print a message in the console
+            console.log("No promos found for the specified hotel.");
+        }*/
+
         res.render('landing/booking', {
             roomType: roomType.rows,
             roomtypes: roomtypes,
             rooms: rooms,
+            promos: promos.rows,
             key: publishable_key,
             floor: floors
         })
@@ -115,7 +131,7 @@ router.get('/', async(req, res)=>{
 router.post('/book', async (req, res) => {
     const {
       checkindate, checkoutdate, numofdays, adultno, childno,
-      roomtype, roomfloor, promocode,
+      roomtype, roomfloor, promoid,
       fullname, address, email, contactno,
       approvalcode, description, price, qty, amount
     } = req.body;
@@ -149,6 +165,10 @@ router.post('/book', async (req, res) => {
         //- Get the typeid of room type
         const roomtyperesult = await client.query('SELECT roomtype FROM room_type WHERE typeid = $1', [roomtype]);
         const roomtypeee = roomtyperesult.rows[0].roomtype;
+
+        //- Get the promocode of promoid
+        const promocoderes = await client.query('SELECT code FROM promos WHERE id = $1', [promoid]);
+        const promocode = promocoderes.rows[0].code;
 
         const assignedRoomResult = await pool.query(
             `SELECT r.roomid FROM rooms r 
@@ -194,6 +214,24 @@ router.post('/book', async (req, res) => {
     
         const q1result = await client.query(q1, [reservationid, hotelid, roomtype, roomid, adultno, childno, date, checkindate, checkoutdate, numofdays, promocode]);
         const reservationID = q1result.rows[0].reservationid;
+
+        if(promoid != 0){
+            const result = await pool.query(`
+                SELECT * FROM promos
+                WHERE id = $1 AND
+                    hotelid = $2
+            `, [promoid, hotelid])
+            
+            let timesavailed = result.rows[0].timesavailed
+            timesavailed += 1
+
+            await pool.query(`
+                UPDATE promos
+                SET timesavailed = $1
+                WHERE id = $2 AND
+                    hotelid = $3
+            `, [timesavailed, promoid, hotelid])
+        }
     
         const q2 = `
             INSERT INTO reservation_guestdetails(reservationid, hotelid, fullname, email, contactno, address)

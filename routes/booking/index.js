@@ -133,7 +133,7 @@ router.post('/book', async (req, res) => {
       checkindate, checkoutdate, numofdays, adultno, childno,
       roomtype, roomfloor, promoid,
       fullname, address, email, contactno,
-      approvalcode, description, price, qty, amount
+      approvalcode, description, discount, price, qty, amount
     } = req.body;
 
     const date = getCurrentDate();
@@ -245,6 +245,13 @@ router.post('/book', async (req, res) => {
         `;
     
         await client.query(q3, [hotelid, roomid]);
+
+        const q4 = `
+            INSERT INTO reservation_trans(reservationid, hotelid, price, qty, discount, amount, description)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `;
+    
+        await client.query(q4, [reservationID, hotelid, price, qty, discount, amount, description]);
 
 
         // Get the current access token

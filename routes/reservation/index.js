@@ -131,7 +131,7 @@ router.post('/reserve', async (req, res) => {
       checkindate, checkoutdate, numofdays, adultno, childno,
       roomtype, roomfloor, promoid,
       fullname, address, email, contactno,
-      approvalcode, description, price, qty, amount
+      approvalcode, description, discount, price, qty, amount
     } = req.body;
 
     const date = getCurrentDate();
@@ -179,9 +179,13 @@ router.post('/reserve', async (req, res) => {
             return;
         }
 
-        //- Get the promocode of promoid
+        // Get the promocode of promoid
         const promocoderes = await client.query('SELECT code FROM promos WHERE id = $1', [promoid]);
-        const promocode = promocoderes.rows[0].code;
+        let promocode = null;
+
+        if (promocoderes.rows.length > 0) {
+            promocode = promocoderes.rows[0].code;
+        }
 
         const assignedRoomResult = await pool.query(
             `SELECT r.roomid FROM rooms r 
@@ -258,6 +262,13 @@ router.post('/reserve', async (req, res) => {
         `;
     
         await client.query(q3, [hotelid, roomid]);
+
+        const q4 = `
+            INSERT INTO reservation_trans(reservationid, hotelid, price, qty, discount, amount, description)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `;
+    
+        await client.query(q4, [reservationID, hotelid, price, qty, discount, amount, description]);
 
 
         // Get the current access token

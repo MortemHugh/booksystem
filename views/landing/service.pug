@@ -4,7 +4,7 @@ head
   link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' rel='stylesheet')
   link(rel='stylesheet' href='css/index.css')
   link(rel='stylesheet' href='css/room.css')
-  title Service
+  title Services
 // Navigation Bar
 body 
 include ../partial/nav.pug 
@@ -16,27 +16,27 @@ section#service_page.service_page
       button.active(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='0' aria-current='true' aria-label='Slide 1')
       button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='1' aria-label='Slide 2')
       button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='2' aria-label='Slide 3')
-      button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='3' aria-label='Slide 4')
-      button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='4' aria-label='Slide 5')
     .carousel-inner.c_inner.c_inner-head
       .carousel-item.active
-        img.d-block.w-100(src='img/Standarad.jpg' alt='...')
+        img.d-block.w-100(src='img/food.jpg' alt='Dining')
         .carousel-caption
-          h5 First slide label
+          h5 Dining 
           p
-            | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
+            | Whet your appetite with artistic culinary creations from our talented chefs. Our in-house restaurants are sure to leave you wanting more.
       .carousel-item
         img.d-block.w-100(src='img/Twin.jpg' alt='...')
         .carousel-caption
-          h5 Second slide label
+          h5 Amenities
           p
-            | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
+            | Our first-rate amenities are designed to elevate your experiences and ensure that you are able to create beautiful memories.
       .carousel-item
         img.d-block.w-100(src='img/Studio.jpg' alt='...')
         .carousel-caption
-          h5 Third slide label
+          h5 Events
           p
-            | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
+            | From fairytale weddings to elegant corporate galas and everything else in between, Relax Hotel is the ultimate backdrop for making cherished memories.
+
+
     button.carousel-control-prev(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide='prev')
       span.carousel-control-prev-icon(aria-hidden='true')
       span.visually-hidden Previous
@@ -45,8 +45,143 @@ section#service_page.service_page
       span.visually-hidden Next
 
 <br>
+    section#dining
+      .container.mt-5
+         .row
+           .col-md-12
+             .section-header.text-center.pb-5
+              h2.titletext
+                | Experience 
+                span D
+                | ining At Relax
+              p
+                | Experience the world on your plate.
+        
     section
-    //-d2 kana magstart
+      .container.mt-5
+          .row
+            .col-md-12   
+              .section-header.text-left.pb-5
+                h3.titletext
+                  text Casa Cusina
+                  img.img-fluid(src="img/Restaurant.jpg", alt="Dining")
+                p
+                  text Casa Cusina showcases delightful contemporary flavors from around the Philippines and the rest of the world, all expertly prepared by our internationally trained chefs.
+                h4.text 
+                  p Operating Hours: 6:00 am to 10:00 pm
+          .row 
+            .col-md-4
+              img.img-fluid(src="img/food1.jpg", alt="Image 1")
+            .col-md-4
+              img.img-fluid(src="img/food2.jpg", alt="Image 2")
+            .col-md-4
+              img.img-fluid(src="img/food3.jpg", alt="Image 3")      
+  
+<br>
+    section.section-padding 
+      .container.mt-5
+          .row
+            .col-md-12
+              .section-header.text-left.pb-5
+                h3.titletext
+                  text Bake and Brew
+                  img.img-fluid(src="img/shop.jpg", alt="...")
+                p
+                  text Indulge your senses in a symphony of rich aromas and flavors at Bake and Brew, our hotel's enchanting coffee and pastry shop. From the heavenly scent of freshly baked pastries to the robust allure of artisanal coffee, savor a delightful culinary experience that captures the essence of indulgence and warmth.
+                h4.text 
+                  p Operating Hours: 6:00 am to 10:00 pm
+          .row 
+            .col-md-4
+              img.img-fluid(src="img/cake.jpg", alt="...")
+            .col-md-4
+              img.img-fluid(src="img/coffee.jpg", alt="...")
+            .col-md-4
+              img.img-fluid(src="img/pancake.jpeg", alt="...")        
+
+<br>
+    hr
+    section#amenities
+      .container.mt-5
+         .row
+           .col-md-12
+             .section-header.text-center.pb-5
+              h2.titletext
+                | Every 
+                span A
+                | menities You Need To Relax
+              p
+                | Our first-rate amenities are designed to elevate your experiences and ensure that you are able to create beautiful memories.
+        
+    section
+      .container.mt-5
+          .row
+            .col-md-6.mb-4
+              img.img-fluid(src="img/food.jpg", alt="Image 1")
+
+            .col-md-6.mb-4
+              .section-header.text-left.pb-5
+                h2.titletext
+                  Text OUTDOOR POOL
+                p 
+                  text Escape from the stress of the city and enjoy a dip in our outdoor pool. 
+                p 
+                  text The pool area also boasts a poolside bar for a perfect afternoon of lounging 
+                p 
+                  text around with your favorite snacks and ice-cold drinks.
+                h3.subtext
+                  text OPERATING SCHEDULE:
+                p 
+                  text Open Daily | 8:00am to 10:00pm
+
+          .row
+            .col-md-6.mb-4
+              img.img-fluid(src="img/food.jpg", alt="Image 2")
+
+            .col-md-6.mb-4
+              .section-header.text-left.pb-5
+                h2.titletext
+                  Text FITNESS GYM
+                p 
+                  text Stay on top of your fitness goals while in Tagaytay. Our fitness gym has 
+                p 
+                  text all of the essential equipment to ensure you are able to maximize your workout.
+                h3.subtext
+                  text OPERATING SCHEDULE:
+                p 
+                  text Open Daily | 8:00am to 10:00pm
+
+          .row
+            .col-md-6.mb-4
+              img.img-fluid(src="img/food.jpg", alt="Image 3")
+
+            .col-md-6.mb-4
+              .section-header.text-left.pb-5
+                h2.titletext
+                  Text IN-ROOM SPA
+                p 
+                  text Immerse yourself in soul-soothing treatments that rejuvenate both mind 
+                p 
+                  text The pool area also boasts a poolside bar for a perfect afternoon of lounging
+                p 
+                  text around with your favorite snacks and ice-cold drinks.
+                h3.subtext
+                  text OPERATING SCHEDULE:
+                p 
+                  text Open Daily | 8:00am to 10:00pm
+
+<br>
+    hr
+    section#event
+      .container.mt-5
+         .row
+           .col-md-12
+             .section-header.text-center.pb-5
+              h2.titletext
+                | Celebrate 
+                span E
+                | vents At Relax
+              p
+                | From grandiose weddings to intimate celebrations, our function rooms are designed to add to the magic of your big day. From weddings and debuts to debuts and 50th anniversaries, Relax Hotel makes sure your event will be something your guests talk about for years to come.
 
 
 

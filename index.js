@@ -71,7 +71,7 @@ app.get('/', async(req, res)=>{
 
 
 
-const PORT = 5050
+const PORT = 5550
 app.listen(PORT, ()=>{
     console.log(`Server started on port ${PORT}`)
 })

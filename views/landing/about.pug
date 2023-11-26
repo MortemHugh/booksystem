@@ -11,13 +11,10 @@ include ../partial/nav.pug
         
 // Image
 section#service_page.service_page
-  #carouselExampleCaptions
-    .carousel-inner.c_inner.c_inner-head
-      .carousel-item.active
-        img.d-block.w-100(src='img/Standarad.jpg' alt='...')
-        .carousel-caption.car-notmain
-          h5 ARUGA
-          p Where Comfort Meets Convenience in Style!
+    #carouselExampleCaptions
+        .carousel-inner.c_inner.c_inner-head(style='height:600px;')
+            .carousel-item.active
+                img.d-block.w-100(src='img/Standarad.jpg' alt='...' )
 // About Us Section
 .container.mt-5
   .row
@@ -29,7 +26,7 @@ section#service_page.service_page
           span U
           | s
         p
-          | Discover a world of comfort and elegance in the heart of ARUGA. Our thoughtfully designed rooms and suites offer a variety of options to cater to your specific needs and preferences.
+          | Discover a world of comfort and elegance in the heart of RELAX. Our thoughtfully designed rooms and suites offer a variety of options to cater to your specific needs and preferences.
           | Each space is a sanctuary where modern luxury and timeless style converge, ensuring a memorable stay for every guest.
 hr
 // Who we are Section
@@ -44,7 +41,7 @@ section#studio.section-padding
         span A
         | re
       p
-        | At ARUGA, we believe that every journey should be an extraordinary one. Nestled in the heart of Manila, our hotel is a testament to the art of hospitality, where comfort, luxury, and exceptional service intertwine to create a haven for discerning travelers.
+        | At RELAX, we believe that every journey should be an extraordinary one. Nestled in the heart of Manila, our hotel is a testament to the art of hospitality, where comfort, luxury, and exceptional service intertwine to create a haven for discerning travelers.
       // Accordion
       #accordionExample.accordion
         // Accordion Item 1
@@ -55,7 +52,7 @@ section#studio.section-padding
           #collapseOne.accordion-collapse.collapse.show(aria-labelledby='headingOne' data-bs-parent='#accordionExample')
             .accordion-body
               strong
-                | ARUGA draws its inspiration from a rich legacy of providing unparalleled hospitality. With years of experience in the industry, we have mastered the art of anticipating and exceeding our guests&apos; needs, making us the preferred choice for travelers from around the world.
+                | RELAX draws its inspiration from a rich legacy of providing unparalleled hospitality. With years of experience in the industry, we have mastered the art of anticipating and exceeding our guests&apos; needs, making us the preferred choice for travelers from around the world.
         // Accordion Item 2
         .accordion-item
           h2#headingTwo.accordion-header
@@ -64,7 +61,7 @@ section#studio.section-padding
           #collapseTwo.accordion-collapse.collapse(aria-labelledby='headingTwo' data-bs-parent='#accordionExample')
             .accordion-body
               strong
-                | Step into ARUGA, and you&apos;ll immediately sense the tranquility that envelops you. Our meticulously designed spaces provide a sanctuary from the hustle and bustle of the city, where you can unwind and recharge in utmost serenity.
+                | Step into RELAX, and you&apos;ll immediately sense the tranquility that envelops you. Our meticulously designed spaces provide a sanctuary from the hustle and bustle of the city, where you can unwind and recharge in utmost serenity.
         // Accordion Item 3
         .accordion-item
           h2#headingThree.accordion-header
@@ -91,7 +88,7 @@ section#studio.section-padding
           #collapseFive.accordion-collapse.collapse(aria-labelledby='headingFive' data-bs-parent='#accordionExample')
             .accordion-body
               strong
-                | What truly sets ARUGA apart is our commitment to personalized service. Our attentive staff anticipates your needs and goes the extra mile to ensure your stay is nothing short of exceptional. Your comfort and satisfaction are our top priorities.
+                | What truly sets RELAX apart is our commitment to personalized service. Our attentive staff anticipates your needs and goes the extra mile to ensure your stay is nothing short of exceptional. Your comfort and satisfaction are our top priorities.
         // Accordion Item 6
         .accordion-item
           h2#headingsix.accordion-header
@@ -100,7 +97,7 @@ section#studio.section-padding
           #collapseSix.accordion-collapse.collapse(aria-labelledby='headingSix' data-bs-parent='#accordionExample')
             .accordion-body
               strong
-                | If you&apos;re hosting a conference, seminar, or special event, ARUGA offers state-of-the-art facilities and event planning services to make your occasion truly memorable.
+                | If you&apos;re hosting a conference, seminar, or special event, RELAX offers state-of-the-art facilities and event planning services to make your occasion truly memorable.
         // Accordion Item 7
         .accordion-item
           h2#headingSeven.accordion-header
@@ -118,7 +115,7 @@ section#studio.section-padding
           #collapseEight.accordion-collapse.collapse(aria-labelledby='headingEight' data-bs-parent='#accordionExample')
             .accordion-body
               strong
-                | Beyond our doors, Manila awaits your discovery. ARUGA&apos;s prime location ensures you&apos;re just moments away from the city&apos;s cultural gems, shopping districts, and vibrant nightlife.
+                | Beyond our doors, Manila awaits your discovery. RELAX&apos;s prime location ensures you&apos;re just moments away from the city&apos;s cultural gems, shopping districts, and vibrant nightlife.
 // how to get
 section.section-padding(id='#')
   .container
@@ -147,51 +144,12 @@ section.section-padding(id='#')
           .m-2.mt-5
             iframe.maps(src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1365.0797185546141!2d121.01046975468863!3d14.597451709118271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9dd976ededf%3A0xbaaa357c5585b8c2!2sPolytechnic%20University%20of%20the%20Philippines!5e0!3m2!1sen!2sph!4v1693754818343!5m2!1sen!2sph' height='450' width='600' allowfullscreen='' loading='lazy' referrerpolicy='no-referrer-when-downgrade')
 //- Contacts Section
-section#contact.contact.section-padding
-  .container
-    .row
-      //- 1st Column
-      .col-md-4.text-center
-        img(src='img/logo-blue.png' alt='Company Logo' width='300')
-        address.m-3
-          | Company Address
-          br
-          |                   Street Address
-          br
-          |                   City, State, Zip Code
-          br
-      //- 2nd Column
-      .col-md-4.text-center
-        ul
-          li.m-3 Contact Number 1: +1 (123) 456-7890
-          li.m-3 Contact Number 2: +1 (987) 654-3210
-          li.m-3 Landline: +1 (555) 123-4567
-          li.m-3
-            | Email: 
-            a(href='mailto:info@example.com') info@example.com
-      //- 3rd Column
-      .col-md-4.text-center
-        ul
-          li.m-3
-            i.fa-brands.fa-facebook.fa-xl(style='color:#2055b1')
-          li.m-3
-            i.fa-brands.fa-x-twitter.fa-xl(style='color:#2055b1')
-          li.m-3
-            i.fa-brands.fa-instagram.fa-xl(style='color:#2055b1')
-  footer.text-center
-    p
-      a(href='#') TERMS &amp; CONDITIONS
-      |  |
-      a(href='#') FAQ
-      |  |
-      a(href='#') PRIVACY
-      |  |
-      a(href='#') TERMS OF USE
+include ../partial/contact.pug 
 //- Footer
 .bg-primary.p-2.text-center
   .container
     p.text-white
-      | Copyright &copy; 2023 Aruga. All Rights Reserved.
+      | Copyright &copy; 2023 Relax. All Rights Reserved.
   script(src='js/script.js')
   script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js')
   script(src='https://kit.fontawesome.com/72e773f6c0.js' crossorigin='anonymous')

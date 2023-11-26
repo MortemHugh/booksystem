@@ -6,9 +6,8 @@ const Pool = require('pg').Pool
     host: 'localhost',
     port: 5432, 
     database: 'fds'
-})
-*/
-const Pool = require('pg').Pool
+})*/
+
 
 const pool = new Pool({
     user: 'acis',
@@ -18,5 +17,4 @@ const pool = new Pool({
     database: 'fds'
 })
 
-module.exports = pool;
 module.exports = pool;

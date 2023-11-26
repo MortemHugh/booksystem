@@ -29,7 +29,7 @@ html(lang="en")
             .carousel-caption
               h5 A Haven of Tranquility
               p
-                | Step into ARUGA, and you&apos;ll immediately sense the tranquility that envelops you. Our meticulously designed spaces provide a sanctuary from the hustle and bustle of the city, where you can unwind and recharge in utmost serenity..
+                | Step into RELAX, and you&apos;ll immediately sense the tranquility that envelops you. Our meticulously designed spaces provide a sanctuary from the hustle and bustle of the city, where you can unwind and recharge in utmost serenity..
           .carousel-item.carousel-item-head
             img.d-block.w-100(src='img/hotel-bed.jpeg' alt='...')
             .carousel-caption
@@ -61,18 +61,18 @@ html(lang="en")
               .content
                 h2.titletext
                   | Welcome to 
-                  span A
-                  | ruga
+                  span R
+                  | elax
                 p.typings Where Comfort Meets Convenience in Style!
                 br
               p
-                | ARUGA, a name synonymous with comfort and sophistication, is your perfect choice for a medium-sized hotel experience that redefines hospitality. Nestled in the heart of Manila,
-                | ARUGA offers a delightful fusion of modern luxury and timeless elegance, setting the stage for an unforgettable stay.
+                | RELAX, a name synonymous with comfort and sophistication, is your perfect choice for a medium-sized hotel experience that redefines hospitality. Nestled in the heart of Manila,
+                | RELAX offers a delightful fusion of modern luxury and timeless elegance, setting the stage for an unforgettable stay.
               p
-                | Where Comfort, Convenience, and Class Converge in a single place. In a world where travel is an art form, ARUGA is your masterpiece.
-                | We invite you to immerse yourself in the ARUGA experience, where comfort, convenience, and class converge to create a symphony of memorable moments.
+                | Where Comfort, Convenience, and Class Converge in a single place. In a world where travel is an art form, RELAX is your masterpiece.
+                | We invite you to immerse yourself in the RELAX experience, where comfort, convenience, and class converge to create a symphony of memorable moments.
               p
-                | Book your next stay with ARUGA, and let us continue to redefine your idea of exceptional hospitality. Your journey of discovery and relaxation begins here.
+                | Book your next stay with RELAX, and let us continue to redefine your idea of exceptional hospitality. Your journey of discovery and relaxation begins here.
               a.btn.btn-primary(href='/about') Learn More
 
 
@@ -84,13 +84,15 @@ html(lang="en")
         .container
           .row.mx-5
             .col-md-12
-              .room-title.section-header.text-center.pb-1
-              h2.titletext
-                | Our Available 
-                span R
-                | ooms
-              p
-                | Diverse range of meticulously designed rooms and suites, each tailored to meet your specific needs and preferences.
+              .card 
+                .card-body
+                  .room-title.section-header.text-center.pb-1
+                  h2.titletext
+                    | Our Available 
+                    span R
+                    | ooms
+                  p
+                    | Diverse range of meticulously designed rooms and suites, each tailored to meet your specific needs and preferences.
 
             .room-slider.slick-slider.mt-5
               each h in allRoomTypeArray
@@ -174,56 +176,15 @@ html(lang="en")
                   span E
                   | vents
                 p.lead
-                  | Join us for an array of exciting events that add an extra layer of excitement to your stay. From live music nights to themed parties, we create memorable moments that make your visit to ARUGA truly unforgettable.
+                  | Join us for an array of exciting events that add an extra layer of excitement to your stay. From live music nights to themed parties, we create memorable moments that make your visit to RELAX truly unforgettable.
               .card-footer.pb-3.pt-3 
                 a.btn.btn-primary(href='/service') Learn More
                 
-    // Contacts Section
-    section#contact.contact.section-padding
-      .container
-        .row
-          // 1st Column
-          .col-md-4.text-center
-            img(src='assets/img/logo-blue.png' alt='Company Logo' width='300')
-            address.m-3
-              | Company Address
-              br
-              |                     Street Address
-              br
-              |                     City, State, Zip Code
-              br
-          // 2nd Column
-          .col-md-4.text-center
-            ul
-              li.m-3 Contact Number 1: +1 (123) 456-7890
-              li.m-3 Contact Number 2: +1 (987) 654-3210
-              li.m-3 Landline: +1 (555) 123-4567
-              li.m-3
-                | Email: 
-                a(href='mailto:info@example.com') info@example.com
-          // 3rd Column
-          .col-md-4.text-center
-            ul
-              li.m-3
-                i.fa-brands.fa-facebook.fa-xl(style='color:#2055b1')
-              li.m-3
-                i.fa-brands.fa-x-twitter.fa-xl(style='color:#2055b1')
-              li.m-3
-                i.fa-brands.fa-instagram.fa-xl(style='color:#2055b1')
-      footer.text-center
-        p
-          a(href='#') TERMS &amp; CONDITIONS
-          |  |
-          a(href='#') FAQ
-          |  |
-          a(href='#') PRIVACY
-          |  |
-          a(href='#') TERMS OF USE
-    // Footer
+    include ../partial/contact.pug 
     .bg-primary.p-2.text-center
       .container
         p.text-white
-          | Copyright &copy; 2023 Aruga. All Rights Reserved.
+          | Copyright &copy; 2023 Relax. All Rights Reserved.
 
           
       script(src='js/script.js')

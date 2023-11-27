@@ -11,51 +11,21 @@ include ../partial/nav.pug
 
 
 section#service_page.service_page
-  #carouselExampleCaptions.carousel.slide(data-bs-ride='carousel')
-    .carousel-indicators
-      button.active(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='0' aria-current='true' aria-label='Slide 1')
-      button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='1' aria-label='Slide 2')
-      button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='2' aria-label='Slide 3')
-      button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='3' aria-label='Slide 4')
-      button(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide-to='4' aria-label='Slide 5')
-    .carousel-inner.c_inner.c_inner-head
-      .carousel-item.active.carousel-item
-        img.d-block.w-100(src='img/Standarad.jpg' alt='...')
-        .carousel-caption
-          h5 First slide label
-          p
-            | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
-      .carousel-item
-        img.d-block.w-100(src='img/Twin.jpg' alt='...')
-        .carousel-caption
-          h5 Second slide label
-          p
-            | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
-      .carousel-item
-        img.d-block.w-100(src='img/Studio.jpg' alt='...')
-        .carousel-caption
-          h5 Third slide label
-          p
-            | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
-      .carousel-item
-        img.d-block.w-100(src='img/Executive.jpg' alt='...')
-        .carousel-caption
-          h5 Fourth slide label
-          p
-            | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
-      .carousel-item
-        img.d-block.w-100(src='img/Family.jpg' alt='...')
-        .carousel-caption
-          h5 Fifth slide label
-          p
-            | Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae aperiam provident odio laborum, corporis delectus asperiores cum totam at soluta, dolorum a iure voluptatum accusantium quis hic modi vitae eos.
-    button.carousel-control-prev(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide='prev')
-      span.carousel-control-prev-icon(aria-hidden='true')
-      span.visually-hidden Previous
-    button.carousel-control-next(type='button' data-bs-target='#carouselExampleCaptions' data-bs-slide='next')
-      span.carousel-control-next-icon(aria-hidden='true')
-      span.visually-hidden Next
+    #carouselExampleCaptions
+        .carousel-inner.c_inner.c_inner-head(style='height:600px;')
+            .carousel-item.active
+                img.d-block.w-100(src='img/Standarad.jpg' alt='...' )
 
+    section#dining
+      .container.mt-5
+         .row
+           .col-md-12
+             .section-header.text-center.pb-5
+              h2.titletext
+                span D
+                |iscount your stay
+              p
+                |Embark on a journey of unparalleled luxury at Relax, where every moment is an indulgence, and every stay is a celebration. As a token of our appreciation, we're thrilled to offer you an exclusive promo code designed to elevate your experience to new heights.
 
 section#service_page.service_page
     .container
@@ -118,10 +88,11 @@ section#service_page.service_page
               if x.enddate      
                 p.fw-bold End Date: <br>
                   span.fw-normal #{x.enddate} 
-                  
+
+.mb-3                  
 include ../partial/contact.pug 
 //- Footer
-.bg-primary.p-2.text-center.mt-3
+.bg-primary.p-2.text-center
   .container
     p.text-white
       | Copyright &copy; 2023 Aruga. All Rights Reserved.

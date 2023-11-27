@@ -21,7 +21,7 @@ const { OAuth2Client } = require('google-auth-library');
 //- OAuth Credentials for email confirmation
 const CLIENT_ID = "179230253575-l6kh9dr95m9rjgbqmjbi4j93brpju79t.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
-const REFRESH_TOKEN = "1//04Txv0S0Vc4YwCgYIARAAGAQSNwF-L9IrPIAhXVscMSOhBkzYALvLjZTq3Bs_jpFkjpTnZwhA87qLIpL5m3zhHyW5RJ3PF6ecRVU";
+const REFRESH_TOKEN = "1//04yt49iI0AgNPCgYIARAAGAQSNwF-L9IruW-AO56kltD8aFLOKnPc-aMAe2EFk6zYeQRqr2FPQHin-XLQX_hAfaxDEMAGlPHOaE8";
 const REDIRECT_URI = "https://developers.google.com/oauthplayground"; //DONT EDIT THIS
 const MY_EMAIL = "acisfds@gmail.com";
 

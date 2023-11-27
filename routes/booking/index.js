@@ -240,11 +240,11 @@ router.post('/book', async (req, res) => {
     
         await client.query(q2, [reservationID, hotelid, fullname, email, contactno, address]);
 
-        const q3 = `
+        /*const q3 = `
             UPDATE rooms SET status = 'Reserved' WHERE hotelid = $1 AND roomid = $2
         `;
     
-        await client.query(q3, [hotelid, roomid]);
+        await client.query(q3, [hotelid, roomid]);*/
 
         const q4 = `
             INSERT INTO reservation_trans(reservationid, hotelid, price, qty, discount, amount, description)

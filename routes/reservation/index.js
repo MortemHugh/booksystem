@@ -33,7 +33,7 @@ const oAuth2Client = new google.auth.OAuth2(
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
-let globalAccessToken; // Store the access token globally
+/*let globalAccessToken; // Store the access token globally
 
 // Function to get the access token
 async function getAccessToken() {
@@ -65,7 +65,7 @@ async function getAccessToken() {
   }
   
   // Periodically check and refresh the access token (e.g., every hour)
-  setInterval(getAccessToken, 60 * 60 * 1000); 
+  setInterval(getAccessToken, 60 * 60 * 1000);*/
 
 //- render reservation form/page
 router.get('/', async (req, res) => {
@@ -272,10 +272,10 @@ router.post('/reserve', async (req, res) => {
 
 
         // Get the current access token
-        //const accessToken = oAuth2Client.credentials.access_token;
+        const accessToken = oAuth2Client.credentials.access_token;
 
         // Get the current access token
-        const accessToken = globalAccessToken;
+        //const accessToken = globalAccessToken;
 
         const transporter = nodemailer.createTransport({
             service: "gmail",
@@ -530,7 +530,7 @@ router.post('/reserve', async (req, res) => {
             <div class="v-text-align v-font-size" style="font-size: 14px; line-height: 170%; text-align: left; word-wrap: break-word;">
                 <p style="font-size: 14px; line-height: 170%;">We are delighted to confirm your reservation at Relax Hotel for the dates of ${checkindate} to ${checkoutdate}. We appreciate your choice to stay with us and look forward to providing you with a comfortable and memorable experience.</p>
             <p style="font-size: 14px; line-height: 170%;"> </p>
-            <p style="font-size: 14px; line-height: 170%;">Please present this email confirmation at the front desk on the date of your reservation.</p>
+            <p style="font-size: 14px; line-height: 170%;">Present this email confirmation at the front desk on the date of your reservation and please arrive at the hotel before 2:00 pm</p>
             </div>
 
                 </td>
@@ -699,7 +699,7 @@ router.post('/reserve', async (req, res) => {
                 <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:0px 30px 20px;font-family:'Rubik',sans-serif;" align="left">
                     
             <div class="v-text-align v-font-size" style="font-size: 14px; color: #eb3737; line-height: 170%; text-align: left; word-wrap: break-word;">
-                <p style="font-size: 14px; line-height: 170%;">Please be informed that once a reservation is confirmed, there is no cancellation policy, and refunds will not be issued as per our terms and conditions, which were clearly stated on our website during your reservation.</p>
+                <p style="font-size: 14px; line-height: 170%;">Please be informed that once a reservation is confirmed, there is no cancellation, and refunds will not be issued as per our terms and conditions, which were clearly stated on our website during your reservation.</p>
             </div>
 
                 </td>

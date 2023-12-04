@@ -21,7 +21,7 @@ const { OAuth2Client } = require('google-auth-library');
 //- OAuth Credentials for email confirmation
 const CLIENT_ID = "179230253575-l6kh9dr95m9rjgbqmjbi4j93brpju79t.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
-const REFRESH_TOKEN = "1//04yt49iI0AgNPCgYIARAAGAQSNwF-L9IruW-AO56kltD8aFLOKnPc-aMAe2EFk6zYeQRqr2FPQHin-XLQX_hAfaxDEMAGlPHOaE8";
+const REFRESH_TOKEN = "1//048lOKM5TYrUDCgYIARAAGAQSNwF-L9Irekumf8SfxiuDn7Bdfn3U2Fdt3uO5PBkx5Maa5mIubBvufHfDbdPbswDnAZFdBxrbQWk";
 const REDIRECT_URI = "https://developers.google.com/oauthplayground"; //DONT EDIT THIS
 const MY_EMAIL = "acisfds@gmail.com";
 
@@ -454,8 +454,6 @@ router.post('/reserve', async (req, res) => {
             <tr>
                 <td class="v-text-align" style="padding-right: 0px;padding-left: 0px;" align="center">
                 
-                <img align="center" border="0" src="images/image-1.png" alt="email icon" title="email icon" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 50%;max-width: 290px;" width="290" class="v-src-width v-src-max-width"/>
-                
                 </td>
             </tr>
             </table>
@@ -530,7 +528,7 @@ router.post('/reserve', async (req, res) => {
             <div class="v-text-align v-font-size" style="font-size: 14px; line-height: 170%; text-align: left; word-wrap: break-word;">
                 <p style="font-size: 14px; line-height: 170%;">We are delighted to confirm your reservation at Relax Hotel for the dates of ${checkindate} to ${checkoutdate}. We appreciate your choice to stay with us and look forward to providing you with a comfortable and memorable experience.</p>
             <p style="font-size: 14px; line-height: 170%;"> </p>
-            <p style="font-size: 14px; line-height: 170%;">Present this email confirmation at the front desk on the date of your reservation and please arrive at the hotel before 2:00 pm</p>
+            <p style="font-size: 14px; line-height: 170%;">Present this email confirmation at the front desk on the date of your reservation and please arrive at the hotel before 2:00 pm. If by 2:01 pm and you're still not in the hotel, your reservation will be automatically cancelled, and once cancelled, regrettably, we are unable to reinstate or make any changes.</p>
             </div>
 
                 </td>
@@ -699,7 +697,7 @@ router.post('/reserve', async (req, res) => {
                 <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:0px 30px 20px;font-family:'Rubik',sans-serif;" align="left">
                     
             <div class="v-text-align v-font-size" style="font-size: 14px; color: #eb3737; line-height: 170%; text-align: left; word-wrap: break-word;">
-                <p style="font-size: 14px; line-height: 170%;">Please be informed that once a reservation is confirmed, there is no cancellation, and refunds will not be issued as per our terms and conditions, which were clearly stated on our website during your reservation.</p>
+                <p style="font-size: 14px; line-height: 170%;">Please be informed that once a reservation is confirmed, there is no cancellation, and refunds will not be issued as per the hotel policies, which were clearly stated on our website during your reservation.</p>
             </div>
 
                 </td>
@@ -726,25 +724,6 @@ router.post('/reserve', async (req, res) => {
                     
             <div class="v-text-align v-font-size" style="font-size: 14px; line-height: 140%; text-align: center; word-wrap: break-word;">
                 <p style="font-size: 14px; line-height: 140%;">Should you have any questions or need to make any changes to your reservation, please feel free to contact our reservations team at acisfds@gmail.com.</p>
-            </div>
-
-                </td>
-                </tr>
-            </tbody>
-            </table>
-
-            <table id="u_content_button_1" style="font-family:'Rubik',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-            <tbody>
-                <tr>
-                <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 30px;font-family:'Rubik',sans-serif;" align="left">
-                    
-            <!--[if mso]><style>.v-button {background: transparent !important;}</style><![endif]-->
-            <div class="v-text-align" align="center">
-            <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.unlayer.com" style="height:37px; v-text-anchor:middle; width:174px;" arcsize="11%"  stroke="f" fillcolor="#ba372a"><w:anchorlock/><center style="color:#FFFFFF;"><![endif]-->
-                <a href="https://www.unlayer.com" target="_blank" class="v-button v-size-width v-font-size" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #ba372a; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:30%; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
-                <span style="display:block;padding:10px 20px;line-height:120%;"><span style="font-size: 14px; line-height: 16.8px;">Contact Us</span></span>
-                </a>
-                <!--[if mso]></center></v:roundrect><![endif]-->
             </div>
 
                 </td>

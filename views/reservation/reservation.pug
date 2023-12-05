@@ -53,7 +53,7 @@ section#service_page.service_page
             .modal-content
                 .modal-header
                     h5.modal-title#exampleModalLabel Hotel Online Reservation Policies
-                    button(type='button', class='btn-close', data-bs-dismiss='modal', aria-label='Close')
+                    
                 .modal-body
                     h6 Reservation Policy:
                     ul
@@ -73,11 +73,18 @@ section#service_page.service_page
                         li In the event of a no-show, your reservation will be cancelled.
                     <br>
                     h6 Closing this modal means you understand all the policies and still wish to proceed
+                .modal-footer 
+                    button.btn-primary(type='button', data-bs-dismiss='modal', aria-label='Close') Close   
 
-    script.
-        $(document).ready(function(){
+        script.
+            $(document).ready(function(){
+            $(document).on('click', '#reservationModal .btn-close', function() {
+                $('#reservationModal').modal('hide');
+            });
+
             $('#reservationModal').modal('show');
-        });
+            });
+
 
     //- multistep form section
     section.mt-4

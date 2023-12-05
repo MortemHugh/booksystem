@@ -41,12 +41,12 @@ section#service_page.service_page
                             | Discover a world of comfort and elegance in the heart of ARUGA. Our thoughtfully designed rooms and suites offer a variety of options to cater to your specific needs and preferences.
                             | Each space is a sanctuary where modern luxury and timeless style converge, ensuring a memorable stay for every guest.
     //- Modal
-    .modal#mods(tabindex='-1', aria-labelledby='exampleModalLabel', aria-hidden='true')
+    .modal#reservationModal(tabindex='-1', aria-labelledby='exampleModalLabel', aria-hidden='true')
         .modal-dialog.modal-dialog-centered
             .modal-content
                 .modal-header
                     h5.modal-title#exampleModalLabel Hotel Online Reservation Policies
-                    button(type='button', class='btn-close', data-bs-dismiss='modal', aria-label='Close')
+                    
                 .modal-body
                     h6 Reservation Policy:
                     ul
@@ -66,11 +66,18 @@ section#service_page.service_page
                         li In the event of a no-show, your reservation will be cancelled.
                     <br>
                     h6 Closing this modal means you understand all the policies and still wish to proceed
+                .modal-footer 
+                    button.btn-primary(type='button', data-bs-dismiss='modal', aria-label='Close') Close   
 
-    script.
-        $(document).ready(function(){
-            $('#mods').modal('show');
-        });
+        script.
+            $(document).ready(function(){
+            $(document).on('click', '#reservationModal .btn-close', function() {
+                $('#reservationModal').modal('hide');
+            });
+
+            $('#reservationModal').modal('show');
+            });
+
 
 //- multistep form section
 section.mt-4

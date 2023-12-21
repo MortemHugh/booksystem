@@ -255,7 +255,7 @@ section#service_page.service_page
                         function updateCheckinMinDate() {
                             // Calculate the minimum date for check-in (current date + 1 day)
                             const today = new Date();
-                            today.setDate(today.getDate() + 1);
+                            today.setDate(today.getDate());
                             const checkinDateInput = document.getElementById('checkindate');
                             checkinDateInput.min = today.toISOString().split('T')[0];
                         }
